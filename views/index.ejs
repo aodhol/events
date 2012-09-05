@@ -1,12 +1,127 @@
-<!DOCTYPE html>
+<!doctype html> 
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    hi sam
-  </body>
-</html>
+<head>
+	<meta charset="utf-8">
+	<title>BBC News - Near Me</title>
+
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<link rel="stylesheet" type="text/css" href="/stylesheets/reset.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/default.css">
+
+    <link rel="stylesheet" href="/stylesheets/gantt.css" />
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" />
+
+
+	<script type="text/javascript" src="/javascripts/jquery-1.7.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fn.gantt.js"></script>
+	<script type="text/javascript" src="/javascripts/events.js"></script>
+
+</head>
+
+	<body>
+
+		<div id='results'></div>
+
+		<header role="banner">
+			<div id="global-header">
+				<a href="http://www.bbc.co.uk">
+					<img src="/images/bbc_blocks.png" width="84" height="24" alt="British Broadcasting Corporation" />
+				</a>
+			</div>
+			<div id="local-header">
+				<h1>
+					<a href="http://www.bbc.co.uk/news">News</a>
+					<span class="location"></span>
+				</h1>
+			</div>
+		</header>
+
+		<div id="container">
+
+			<section role="main">
+				<div id="story-list"></div>
+			</section>
+
+			<section role="complementary" id="local-people"></section>
+			<section role="complementary" id="local-companies"></section>
+
+		</div>
+
+		<footer>
+			<div id="footer-content">
+				<p>BBC &copy; 2012</p>
+			</div>
+		</footer>
+
+		<script>
+
+			function makeChart(data){
+
+				console.log(data)
+
+				$(".gantt").gantt({
+					source: data,
+					navigate: "scroll",
+					scale: "weeks",
+					maxScale: "months",
+					minScale: "days",
+					itemsPerPage: 10,
+					onItemClick: function(data) {
+						alert("Item clicked - show some details");
+					},
+					onAddClick: function(dt, rowId) {
+						alert("Empty space clicked - add an item!");
+					}
+				});
+			}
+
+			function strToMillis(str){
+
+				console.log("STR:" + str)
+				return new Date(str).getTime();
+			}
+
+			$(document).ready(function(){
+
+				// $(".gantt").popover({
+				// 	selector: ".bar",
+				// 	title: "I'm a popover",
+				// 	content: "And I'm the content of said popover."
+				// });
+
+				getEvents(function(error,data){
+					if(data != null){
+						console.log("DATA:",data);
+
+						var ganttData = [];
+
+						for(var i = 0; i < data.length; i++){
+
+							var item = data[i]; 
+							if(item.start_at != null && item.end_at != null){
+								console.log("ITEM:", item)
+								ganttData.push({"name":"Some name","desc":"Some desc","values":[{"from":"/Date(" + strToMillis(item.start_at) + ")/","to":"/Date(" + strToMillis(item.end_at) + ")/","label":item.title,"customClass":"ganttRed"}]});
+
+							}
+						};
+
+						ganttData.push(itemTmp)
+
+						makeChart(ganttData);
+
+					}else{
+						console.log("Error:",error)
+					}
+				});
+
+			});
+
+		</script>
+
+		<div class="gantt"></div>
+
+	</body>
+</html> 

@@ -10,6 +10,7 @@ POST http://juicer.responsivenews.co.uk/api/events?binding=e&limit=50
 body:
 ?e rdf:type pne:Event .
 
+Events for Syria: http://juicer.responsivenews.co.uk/api/events?binding=e&where=?e event:place <http://dbpedia.org/resource/Syria> . &limit=50
 
 
 Articles feed with images:
