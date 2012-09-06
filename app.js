@@ -31,7 +31,10 @@ app.get('/event/:id',routes.get_event);
 app.get('/events/:id',routes.get_events);
 app.get('/articles', routes.articles);
 app.get('/panel', routes.panel);
+
 app.get('/timeline/:event_id',routes.timeline);
+
+app.get('/panel2', routes.panel2);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
