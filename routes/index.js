@@ -8,6 +8,10 @@ exports.index = function(req, res){
   res.render('index', { title: 'Express' });
 };
 
+exports.panel = function(req, res){
+  res.render('panel');
+};
+
 exports.articles = function(req, res){
   var request = restler.get("http://juicer.responsivenews.co.uk/events.json");
 

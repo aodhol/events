@@ -1,0 +1,47 @@
+.panel {
+	padding: 8px;
+	width: 224px;
+}
+.panel img {
+	margin-bottom: 8px;
+	width: 100%;
+}
+.panel .title {
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 24px;
+	margin: 0;
+}
+.panel p {
+	font-size: 13px;
+	line-height: 16px;
+}
+.dark {
+	background-color: #000000;
+	color: #ffffff;
+}
+.share {
+	margin: 0;
+}
+.share li {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+}
+.share .facebook {
+	background: url(http://static.bbci.co.uk/modules/sharetools/v1/img/sprite-0.3.2.png) -17px -150px;
+}
+.share .twitter {
+	background: url(http://static.bbci.co.uk/modules/sharetools/v1/img/sprite-0.3.2.png) -17px -167px;
+}
+.share .follow {
+	background-color: #666666;
+	font-size: 11px;
+	line-height: 11px;
+	width: auto;
+}
+.share .follow a {
+	color: #ffffff;
+	float: left;
+	padding: 3px 8px;
+}
