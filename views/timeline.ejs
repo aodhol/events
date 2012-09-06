@@ -1,0 +1,54 @@
+<!doctype html> 
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>BBC News - Near Me</title>
+
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<link rel="stylesheet" type="text/css" href="/stylesheets/reset.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/default.css">
+<!--
+    <link rel="stylesheet" href="/stylesheets/gantt.css" />
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" /> -->
+
+
+	<script type="text/javascript" src="/javascripts/jquery-1.7.min.js"></script>
+<!--	<script type="text/javascript" src="/javascripts/jquery.fn.gantt.js"></script>
+	<script type="text/javascript" src="/javascripts/events.js"></script> -->
+
+<!-- jQuery -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		
+		<!-- BEGIN TimelineJS -->
+		<script type="text/javascript" src="../compiled/js/storyjs-embed.js"></script>
+</head>
+
+		<script>
+			$(document).ready(function() {
+				createStoryJS({
+					type:		'timeline',
+					width:		'800',
+					height:		'600',
+					source:		'/event/<%=event_id%>',
+					embed_id:	'my-timeline',
+					debug:		true
+				});
+			});
+		</script>
+		<!-- END TimelineJS -->
+		
+	</head>
+
+	<body>
+		
+		<div id="my-timeline"></div>
+
+
+
+  </body>
+
+
+  </html>
