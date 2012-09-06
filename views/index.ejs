@@ -86,11 +86,16 @@
 
 			$(document).ready(function(){
 
+				console.log("output");
+
+				
+
 				// $(".gantt").popover({
 				// 	selector: ".bar",
 				// 	title: "I'm a popover",
 				// 	content: "And I'm the content of said popover."
 				// });
+
 
 				getEvents(function(error,data){
 					if(data != null){
@@ -105,12 +110,48 @@
 								console.log("ITEM:", item)
 								ganttData.push({"name":"Some name","desc":"Some desc","values":[{"from":"/Date(" + strToMillis(item.start_at) + ")/","to":"/Date(" + strToMillis(item.end_at) + ")/","label":item.title,"customClass":"ganttRed"}]});
 
+								var itemTmp = {
+									name: " ",
+									desc: "Scoping",
+									values: [{
+										from: "/Date(1322611200000)/",
+										to: "/Date(1323302400000)/",
+										label: "Scoping", 
+										customClass: "ganttRed"
+									}]
+								};
+
 							}
 						};
 
 						ganttData.push(itemTmp)
 
 						makeChart(ganttData);
+
+						/*
+[{
+						name: "Sprint 0",
+						desc: "Analysis",
+						values: [{
+							from: "/Date(1320192000000)/",
+							to: "/Date(1322401600000)/",
+							label: "Requirement Gathering", 
+							customClass: "ganttRed",
+
+						}]
+					},{
+						name: " ",
+						desc: "Scoping",
+						values: [{
+							from: "/Date(1322611200000)/",
+							to: "/Date(1323302400000)/",
+							label: "Scoping", 
+							customClass: "ganttRed"
+						}]
+					}]
+						*/
+
+
 
 					}else{
 						console.log("Error:",error)
