@@ -169,3 +169,20 @@ exports.timeline = function(req,res){
     res.render("timeline",{"event_id":id});
 }   
 
+exports.concept = function(req,res){
+
+    var title = req.param('concept_title');
+
+    var request = restler.get("http://juicer.responsivenews.co.uk/concepts/" + title + ".json");
+
+    request.on('complete', function(result) {
+      if (result instanceof Error) {
+        console.log("Error:",result);
+      } else {
+        res.render("concept",{"concept":result});
+      }
+    });
+
+}   
+
+

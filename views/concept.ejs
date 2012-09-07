@@ -1,0 +1,19 @@
+<h3><%=concept.description%></h3>
+<h3>Articles about <%=concept.title%></h3>
+
+
+<ol>
+<%
+	var articles = concept.articles;
+
+	for(var i = 0; i < articles.length; i++){
+
+		var article = articles[i];
+%>
+		<li><a href="<%=article.url%>"><%=article.title%></a></li>
+
+<%
+	}
+%>
+
+</ol>

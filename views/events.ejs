@@ -3,21 +3,31 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script>
 	$(document).ready(function() {
+		//Replace date with relative time.
 		$('.event-created-at').each(function(){
 			var dateStr = $(this).text();
-			console.log(dateStr)
 			$(this).text(new Date(dateStr).toRelativeTime())
 		});
 	});
 </script>
 
+<style>
+	.event-concepts li{
+		display:inline;
+		border-radius: 5px;
+		background-color:#99F;
+		border:0px solid #fff;
+	}
+</style>
+
+<ol>
 <%
 for(var i = 0; i < events.length; i++){
 %>
 
 <% if (events[i].articles.length > 0) { %>
 
-<ol>
+
 	<%var event = events[i];%>
 
 	<%
@@ -26,25 +36,26 @@ for(var i = 0; i < events.length; i++){
 
 	<li>
 		<a href="/timeline/<%=event.id%>"><%=event.title%></a><div>First published <span class="event-created-at"><%=event.created_at%></span> has <%=event.articles.length%> <%=(event.articles.length > 1 ? 'stories':'story')%> mainly about: 
-		<ul>
+		<ul class="event-concepts">
 	<%
 	for(var j = 0; j < concepts.length; j++){
 		var label = concepts[j].label;
+		var title = concepts[j].title;
 	%>
-		<li><%=label%></li>
+		<li><a href="/concept/<%=title%>"><%=label%></a></li>
 	<%
 	}
 	%>
 		</ul>
 		</div>
 	</li>
-</ol>
-
 	<%}%>
 
 <%	
 }
 %>
+
+</ol>
 
 <!-- {
 created_at: "2012-09-04T10:08:51Z",

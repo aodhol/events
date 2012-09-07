@@ -34,6 +34,8 @@ app.get('/panel', routes.panel);
 
 app.get('/timeline/:event_id',routes.timeline);
 
+app.get('/concept/:concept_title',routes.concept);
+
 app.get('/panel2', routes.panel2);
 
 http.createServer(app).listen(app.get('port'), function(){
