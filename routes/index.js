@@ -150,9 +150,16 @@ exports.get_event = function(req, res){
 }
 
 exports.get_events = function(req, res){
-    
-//    res.send(JSON.stringify(result));
+     
+    var request = restler.get("http://juicer.responsivenews.co.uk/events.json");
 
+    request.on('complete', function(result) {
+      if (result instanceof Error) {
+        console.log("Error:",result);
+      } else {
+        res.render("events",{"events":result});
+      }
+    });
 }
 
 exports.timeline = function(req,res){

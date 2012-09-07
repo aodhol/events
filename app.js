@@ -28,7 +28,7 @@ app.configure('development', function(){
 app.get('/', routes.index);
 //app.get('/events', routes.get_events);
 app.get('/event/:id',routes.get_event);
-app.get('/events/:id',routes.get_events);
+app.get('/events',routes.get_events);
 app.get('/articles', routes.articles);
 app.get('/panel', routes.panel);
 

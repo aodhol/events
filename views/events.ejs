@@ -1,0 +1,64 @@
+
+<script type="text/javascript" src="/javascripts/date.extensions.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.event-created-at').each(function(){
+			var dateStr = $(this).text();
+			console.log(dateStr)
+			$(this).text(new Date(dateStr).toRelativeTime())
+		});
+	});
+</script>
+
+<%
+for(var i = 0; i < events.length; i++){
+%>
+
+<% if (events[i].articles.length > 0) { %>
+
+<ol>
+	<%var event = events[i];%>
+
+	<%
+	var concepts = event.concepts;
+	%>
+
+	<li>
+		<a href="/timeline/<%=event.id%>"><%=event.title%></a><div>First published <span class="event-created-at"><%=event.created_at%></span> has <%=event.articles.length%> <%=(event.articles.length > 1 ? 'stories':'story')%> mainly about: 
+		<ul>
+	<%
+	for(var j = 0; j < concepts.length; j++){
+		var label = concepts[j].label;
+	%>
+		<li><%=label%></li>
+	<%
+	}
+	%>
+		</ul>
+		</div>
+	</li>
+</ol>
+
+	<%}%>
+
+<%	
+}
+%>
+
+<!-- {
+created_at: "2012-09-04T10:08:51Z",
+description: "Neil Armstrong dies",
+end_at: "2012-08-25T14:45:00Z",
+id: 18,
+lft: 17,
+parent_id: null,
+rgt: 18,
+start_at: "2012-08-25T14:45:00Z",
+title: "Neil Armstrong death",
+updated_at: "2012-09-04T15:46:12Z",
+concepts: [],
+places: [],
+agents: [],
+articles: []
+}, -->
