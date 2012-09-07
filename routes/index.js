@@ -84,17 +84,54 @@ url: "http://www.bbc.co.uk/news/world-middle-east-19484240"
         
         var pubDate = getTlDate(article.published);
 
+        var articleText =
+          '<div class="panel">'
+            + '<h2 class="title mod">'
+              + '<img src="http://news.bbcimg.co.uk/media/images/62400000/jpg/_62400998_introduction.jpg" />'
+              + '<span class="title-text">' + article.title + '</span>'
+            + '</h2>'
+            + '<span class="date">' + pubDate + '</span>'
+            + '<p>' + article.description + '</p>'
+            + '<a href="' + article.url + '">Read full article</a>'
+            + '<div class="mod">';
+
+            for (keyword in event.concepts) {
+              articleText += '<span class="keyword">' + event.concepts[keyword].label + '</span>';
+            }
+              
+            articleText += '</div>';
+
+            if (article.places) {
+              articleText += '<h3 class="">Places</h3>';
+
+              for (place in article.places) {
+                articleText += '<span class="place">' + article.places[place].name + '</span>';
+              }
+            }
+
+            if (article.people) {
+              articleText += '<h3 class="">People</h3>';
+
+              for (person in article.people) {
+                articleText += '<span class="person">' + article.people[person].name + '</span>';
+              }
+            }
+
+            if (article.organisations) {
+              articleText += '<h3 class="">Organisations</h3>';
+
+              for (organisation in article.organisations) {
+                articleText += '<span class="organisation">' + article.organisations[organisation].name + '</span>';
+              }
+            }
+
+          articleText += '</div>';
+
         var tlEvent = {
             "startDate":pubDate,
             "endDate":pubDate,
             "headline":article.title,
-            "text":article.description,
-            "asset":
-            {
-                "media":"http://static.guim.co.uk/sys-images/Guardian/About/General/2012/9/4/1346781155318/Syrian-refugees-at-the-Za-008.jpg",
-                "credit":"",
-                "caption":""
-            }
+            "text":articleText
         };
 
         items.push(tlEvent);

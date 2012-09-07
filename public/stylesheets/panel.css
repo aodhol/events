@@ -1,15 +1,25 @@
+#my-timeline .vco-slider .slider-item .content-container.layout-text .text .container {
+	width: 100%;
+}
+#my-timeline h2.date, #my-timeline h2.date + h3 {
+	display: none;
+}
+#my-timeline .vco-storyjs img {
+	border: none;
+}
+#my-timeline .vco-storyjs .title {
+	float: left;
+}
+
 .panel {
 	padding: 8px;
-	width: 224px;
-}
-.wide {
 	width: 100%;
 }
 .panel img {
-	margin-bottom: 8px;
 	width: 100%;
 }
 .panel .title {
+	float: left;
 	font-size: 16px;
 	font-weight: normal;
 	line-height: 24px;
@@ -50,7 +60,7 @@
 	padding: 3px 8px;
 }
 
-.panel .title .text {
+.panel .title .title-text {
 	background-color: #ffffff;
 	bottom: 0;
 	color: #000000;
@@ -58,11 +68,8 @@
 	padding: 0 8px;
 	position: absolute;
 }
-.wide img {
-	margin-bottom: 0;
-}
 .mod {
-	max-width: 200px;
+	max-width: 240px;
 }
 .mod ul li {
 	font-size: 13px;
