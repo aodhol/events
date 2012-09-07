@@ -55,5 +55,36 @@
 	bottom: 0;
 	color: #000000;
 	left: 0;
+	padding: 0 8px;
 	position: absolute;
+}
+.wide img {
+	margin-bottom: 0;
+}
+.mod {
+	max-width: 200px;
+}
+.mod ul li {
+	font-size: 13px;
+}
+.panel .mod .heading {
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 32px;
+	margin: 0;
+}
+.panel .mod ul {
+	margin: 0;
+}
+.panel .key-points li {
+	list-style-position: inside;
+	list-style-type: square;
+}
+.panel .keywords li {
+	background-color: #ccffff;
+	border-radius: 8px;
+	color: #666666;
+	display: inline-block;
+	margin-bottom: 2px;
+	padding: 2px 4px;
 }
