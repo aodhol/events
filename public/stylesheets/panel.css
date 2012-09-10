@@ -10,8 +10,20 @@
 #my-timeline .vco-storyjs .title {
 	float: left;
 }
+#my-timeline .vco-storyjs .vco-feature h3 {
+	margin-bottom: 0;
+}
+
+body, #my-timeline .vco-storyjs, #my-timeline .vco-storyjs .vco-feature h2,
+#my-timeline .vco-storyjs .vco-feature h3, #my-timeline .vco-storyjs p {
+	font-family: arial,sans-serif;
+}
+#my-timeline .vco-slider .slider-item {
+	overflow-x: hidden;
+}
 
 .panel {
+	font-size: 13px;
 	padding: 8px;
 	width: 100%;
 }
@@ -26,9 +38,20 @@
 	margin: 0;
 	position: relative;
 }
-.panel p {
+.panel p, .panel p.description {
 	font-size: 13px;
 	line-height: 16px;
+	margin-bottom: 0;
+}
+.panel .mod {
+	clear: both;
+}
+.panel .keyword {
+	background-color: #666666;
+	color: #ffffff;
+	display: inline-block;
+	margin: 0 1px 1px 0;
+	padding: 4px;
 }
 .dark {
 	background-color: #000000;
@@ -64,8 +87,10 @@
 	background-color: #ffffff;
 	bottom: 0;
 	color: #000000;
+	font-size: 16px;
 	left: 0;
-	padding: 0 8px;
+	margin-right: 16px;
+	padding: 2px 8px;
 	position: absolute;
 }
 .mod {
@@ -94,4 +119,15 @@
 	display: inline-block;
 	margin-bottom: 2px;
 	padding: 2px 4px;
+}
+
+.slider-item::-webkit-scrollbar {
+	padding-right: 8px;
+	width: 8px;
+}
+.slider-item::-webkit-scrollbar-track {
+	background-color: #cccccc;
+}
+.slider-item::-webkit-scrollbar-thumb {
+	background-color: #a1a1a1;
 }

@@ -91,8 +91,8 @@ url: "http://www.bbc.co.uk/news/world-middle-east-19484240"
               + '<span class="title-text">' + article.title + '</span>'
             + '</h2>'
             + '<span class="date">' + pubDate + '</span>'
-            + '<p>' + article.description + '</p>'
-            + '<a href="' + article.url + '">Read full article</a>'
+            + '<p class="description">' + article.description + '</p>'
+            + '<a class="full" href="' + article.url + '">Read full article</a>'
             + '<div class="mod">';
 
             for (keyword in event.concepts) {
@@ -101,27 +101,27 @@ url: "http://www.bbc.co.uk/news/world-middle-east-19484240"
               
             articleText += '</div>';
 
-            if (article.places) {
+            if (article.places.length) {
               articleText += '<h3 class="">Places</h3>';
 
               for (place in article.places) {
-                articleText += '<span class="place">' + article.places[place].name + '</span>';
+                articleText += '<span class="place keyword">' + article.places[place].name + '</span>';
               }
             }
 
-            if (article.people) {
+            if (article.people.length) {
               articleText += '<h3 class="">People</h3>';
 
               for (person in article.people) {
-                articleText += '<span class="person">' + article.people[person].name + '</span>';
+                articleText += '<span class="person keyword">' + article.people[person].name + '</span>';
               }
             }
 
-            if (article.organisations) {
+            if (article.organisations.length) {
               articleText += '<h3 class="">Organisations</h3>';
 
               for (organisation in article.organisations) {
-                articleText += '<span class="organisation">' + article.organisations[organisation].name + '</span>';
+                articleText += '<span class="organisation keyword">' + article.organisations[organisation].name + '</span>';
               }
             }
 
