@@ -31,6 +31,7 @@ app.get('/event/:id',routes.get_event);
 app.get('/events',routes.get_events);
 app.get('/articles', routes.articles);
 app.get('/panel', routes.panel);
+app.get('/timeaxis', routes.timeaxis);
 
 app.get('/timeline/:event_id',routes.timeline);
 

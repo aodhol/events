@@ -1,0 +1,33 @@
+<canvas id="timeaxis"></canvas>
+<style type="text/css">
+#timeaxis {
+	height: 80px;
+	width: 100%;
+}
+</style>
+<script type="text/javascript">
+var canvas = document.getElementById('timeaxis'),
+	context = canvas.getContext('2d');
+
+var event = {
+	"end_at":"2012-08-25T14:45:00Z",
+	"start_at":"2012-07-25T14:45:00Z",
+};
+renderTimeline(event);
+
+function renderTimeline(event) {
+	var start = new Date(event.start_at),
+		end = new Date(event.end_at),
+		datediff = end.getTime() - start.getTime(),
+		seconds = datediff / 1000,
+		minutes = seconds / 60,
+		hours = minutes / 60,
+		days = hours / 24;
+
+	if (hours < 46) {
+		
+	} else if (days < 40) {
+		
+	}
+}
+</script>
