@@ -18,6 +18,10 @@ exports.panel2 = function(req, res){
   res.render('panel2');
 };
 
+exports.timeaxis = function(req, res) {
+  res.render('timeaxis');
+}
+
 exports.articles = function(req, res){
   var request = restler.get("http://juicer.responsivenews.co.uk/events.json");
 
