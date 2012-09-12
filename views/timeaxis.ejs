@@ -23,8 +23,9 @@ var canvas = document.getElementById('timeaxis'),
 	start,
 	end,
 	articleId,
-	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-	colours = {'background': '#fff', 'article':'#ccc', 'current':'#c11b17'};
+	maxKeys = { 'days':40, 'hours':36 },
+	months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
+	colours = { 'background': '#fff', 'article':'#ccc', 'current':'#c11b17' };
 
 	canvas.width = canvasWidth;
 
@@ -53,9 +54,9 @@ function renderTimeline(event, currentArticleId) {
 		hours = minutes / 60,
 		days = hours / 24;
 
-	if (hours < 46) {
+	if (hours < maxKeys['hours']) {
 		
-	} else if (days < 40) {
+	} else if (days < maxKeys['days']) {
 		scaleKey = 'days';
 		scaleValue = days;
 	}
@@ -92,7 +93,6 @@ function addArticles() {
 			diff = articleDate.getTime() - start.getTime();
 			position = Math.floor(diff / (1000 * 60 * 60 * 24));
 		}
-		console.log(articleId);
 		addMarker(position, (ev.articles[article].cps_id === articleId));
 	}
 }
