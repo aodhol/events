@@ -1,8 +1,7 @@
-<canvas id="timeaxis"></canvas>
+<canvas id="timeaxis" height="80"></canvas>
 <style type="text/css">
 #timeaxis {
-	height: 80px;
-	width: 100%;
+	/*width: 100%;*/
 }
 head, body {
 	margin: 0;
@@ -20,13 +19,18 @@ var canvas = document.getElementById('timeaxis'),
 	scaleIndex,
 	keyWidth,
 	articleTimelineKey = 'published',
-	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	start,
+	end,
+	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+	dates = [];
 
 	canvas.width = canvasWidth;
 
+	window.addEventListener('resize', resizeCanvas, false);
+
 var event = {
-	"end_at":"2012-08-25T14:45:00Z",
-	"start_at":"2012-07-25T14:45:00Z",
+	"end_at":"2012-09-25T14:45:00Z",
+	"start_at":"2012-08-25T14:45:00Z",
 	"articles":[
 		{ "published":"2012-08-31T22:29:46Z" },
 		{ "published":"2012-09-02T22:29:46Z" },
@@ -37,9 +41,9 @@ var event = {
 renderTimeline(event);
 
 function renderTimeline(event) {
-	var start = new Date(event.start_at),
-		end = new Date(event.end_at),
-		datediff = end.getTime() - start.getTime(),
+	start = new Date(event.start_at);
+	end = new Date(event.end_at);
+	var datediff = end.getTime() - start.getTime(),
 		seconds = datediff / 1000,
 		minutes = seconds / 60,
 		hours = minutes / 60,
@@ -52,16 +56,23 @@ function renderTimeline(event) {
 		scaleValue = days;
 	}
 
-	keyWidth = canvasWidth / scaleValue;
+	getSizes();
 
 	background();
-	addKey(start, end);
+	addKey(true);
+	addArticles();
+}
 
-	for (article in event.articles) {
-		var d = new Date(event.articles[article][articleTimelineKey]);
-		console.log(d);
-		//addMarker(article);
-	}
+function resizeCanvas() {
+	getSizes();
+	background();
+	addArticles();
+}
+
+function getSizes() {
+	canvasWidth = window.innerWidth;
+	canvas.width = canvasWidth;
+	keyWidth = canvasWidth / scaleValue;
 }
 
 function background() {
@@ -69,19 +80,36 @@ function background() {
 	context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-function addMarker(article) {
-	context.fillStyle = 'yellow';
-	context.fillRect(0, 0, canvas.width, canvas.height);
+function addArticles() {
+	for (article in event.articles) {
+		var d = new Date(event.articles[article][articleTimelineKey]),
+			articleDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+		for (index in dates) {
+			if (dates[index].getTime() === articleDate.getTime()) {
+				addMarker(index);
+				break;
+			}
+		}
+	}
+	addKey();
 }
 
-function addKey(start, end) {
+function addMarker(point) {
+	context.fillStyle = 'yellow';
+	console.log(point);
+	context.fillRect(point * keyWidth, 0, keyWidth, canvas.height);
+}
+
+function addKey(onLoad) {
 	context.fillStyle = 'black';
-	context.font = 'bold 16px Arial';
-	var currentDate = start,
+	context.font = 'bold 12px Arial';
+	var currentDate = new Date(start.getTime()),
 		position = 0,
 		currentDay,
 		currentMonth,
 		currentYear;
+
 	while (currentDate <= end) {
 		if (scaleKey === 'days') {
 			context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
@@ -89,9 +117,17 @@ function addKey(start, end) {
 				currentMonth = currentDate.getMonth();
 				context.fillText(months[currentMonth], position, canvasHeight - fontHeight);
 			}
+			if (currentYear !== currentDate.getFullYear()) {
+				currentYear = currentDate.getFullYear();
+				context.fillText(currentYear, position, canvasHeight - 2);
+			}
 		}
 		position += keyWidth;
+		if (onLoad) {
+			dates.push(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()));
+		}
 		currentDate.setDate(currentDate.getDate() + 1);
 	}
+	
 }
 </script>
