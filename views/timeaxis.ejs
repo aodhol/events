@@ -4,14 +4,35 @@
 	height: 80px;
 	width: 100%;
 }
+head, body {
+	margin: 0;
+	padding: 0;
+}
 </style>
 <script type="text/javascript">
 var canvas = document.getElementById('timeaxis'),
-	context = canvas.getContext('2d');
+	context = canvas.getContext('2d'),
+	canvasHeight = canvas.height,
+	canvasWidth = window.innerWidth,
+	fontHeight = 16,
+	scaleKey,
+	scaleValue,
+	scaleIndex,
+	keyWidth,
+	articleTimelineKey = 'published',
+	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+	canvas.width = canvasWidth;
 
 var event = {
 	"end_at":"2012-08-25T14:45:00Z",
 	"start_at":"2012-07-25T14:45:00Z",
+	"articles":[
+		{ "published":"2012-08-31T22:29:46Z" },
+		{ "published":"2012-09-02T22:29:46Z" },
+		{ "published":"2012-09-05T22:29:46Z" },
+		{ "published":"2012-09-12T22:29:46Z" }
+	]
 };
 renderTimeline(event);
 
@@ -27,7 +48,50 @@ function renderTimeline(event) {
 	if (hours < 46) {
 		
 	} else if (days < 40) {
-		
+		scaleKey = 'days';
+		scaleValue = days;
+	}
+
+	keyWidth = canvasWidth / scaleValue;
+
+	background();
+	addKey(start, end);
+
+	for (article in event.articles) {
+		var d = new Date(event.articles[article][articleTimelineKey]);
+		console.log(d);
+		//addMarker(article);
+	}
+}
+
+function background() {
+	context.fillStyle = '#ccc';
+	context.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function addMarker(article) {
+	context.fillStyle = 'yellow';
+	context.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function addKey(start, end) {
+	context.fillStyle = 'black';
+	context.font = 'bold 16px Arial';
+	var currentDate = start,
+		position = 0,
+		currentDay,
+		currentMonth,
+		currentYear;
+	while (currentDate <= end) {
+		if (scaleKey === 'days') {
+			context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
+			if (currentMonth !== currentDate.getMonth()) {
+				currentMonth = currentDate.getMonth();
+				context.fillText(months[currentMonth], position, canvasHeight - fontHeight);
+			}
+		}
+		position += keyWidth;
+		currentDate.setDate(currentDate.getDate() + 1);
 	}
 }
 </script>
