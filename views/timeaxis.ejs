@@ -19,10 +19,12 @@ var canvas = document.getElementById('timeaxis'),
 	scaleIndex,
 	keyWidth,
 	articleTimelineKey = 'published',
+	ev,
 	start,
 	end,
+	articleId,
 	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-	dates = [];
+	colours = {'background': '#fff', 'article':'#ccc', 'current':'#c11b17'};
 
 	canvas.width = canvasWidth;
 
@@ -32,17 +34,19 @@ var event = {
 	"end_at":"2012-09-25T14:45:00Z",
 	"start_at":"2012-08-25T14:45:00Z",
 	"articles":[
-		{ "published":"2012-08-31T22:29:46Z" },
-		{ "published":"2012-09-02T22:29:46Z" },
-		{ "published":"2012-09-05T22:29:46Z" },
-		{ "published":"2012-09-12T22:29:46Z" }
+		{ "published":"2012-08-31T22:29:46Z", "cps_id":"19446801" },
+		{ "published":"2012-09-02T22:29:46Z", "cps_id":"19446802" },
+		{ "published":"2012-09-05T22:29:46Z", "cps_id":"19446803" },
+		{ "published":"2012-09-12T22:29:46Z", "cps_id":"19446804" }
 	]
 };
-renderTimeline(event);
+renderTimeline(event, '19446803');
 
-function renderTimeline(event) {
-	start = new Date(event.start_at);
-	end = new Date(event.end_at);
+function renderTimeline(event, currentArticleId) {
+	ev = event;
+	articleId = currentArticleId;
+	start = new Date(ev.start_at);
+	end = new Date(ev.end_at);
 	var datediff = end.getTime() - start.getTime(),
 		seconds = datediff / 1000,
 		minutes = seconds / 60,
@@ -57,16 +61,16 @@ function renderTimeline(event) {
 	}
 
 	getSizes();
-
 	background();
-	addKey(true);
 	addArticles();
+	addKey();
 }
 
 function resizeCanvas() {
 	getSizes();
 	background();
 	addArticles();
+	addKey();
 }
 
 function getSizes() {
@@ -76,32 +80,29 @@ function getSizes() {
 }
 
 function background() {
-	context.fillStyle = '#ccc';
+	context.fillStyle = colours.background;
 	context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function addArticles() {
-	for (article in event.articles) {
-		var d = new Date(event.articles[article][articleTimelineKey]),
-			articleDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+	for (article in ev.articles) {
+		var articleDate = new Date(ev.articles[article][articleTimelineKey]);
 
-		for (index in dates) {
-			if (dates[index].getTime() === articleDate.getTime()) {
-				addMarker(index);
-				break;
-			}
+		if (scaleKey === 'days') {
+			diff = articleDate.getTime() - start.getTime();
+			position = Math.floor(diff / (1000 * 60 * 60 * 24));
 		}
+		console.log(articleId);
+		addMarker(position, (ev.articles[article].cps_id === articleId));
 	}
-	addKey();
 }
 
-function addMarker(point) {
-	context.fillStyle = 'yellow';
-	console.log(point);
+function addMarker(point, current) {
+	context.fillStyle = (current) ? colours.current : colours.article;
 	context.fillRect(point * keyWidth, 0, keyWidth, canvas.height);
 }
 
-function addKey(onLoad) {
+function addKey() {
 	context.fillStyle = 'black';
 	context.font = 'bold 12px Arial';
 	var currentDate = new Date(start.getTime()),
@@ -123,9 +124,6 @@ function addKey(onLoad) {
 			}
 		}
 		position += keyWidth;
-		if (onLoad) {
-			dates.push(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()));
-		}
 		currentDate.setDate(currentDate.getDate() + 1);
 	}
 	
