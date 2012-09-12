@@ -1,0 +1,121 @@
+.locator {
+    border-top: 1px solid #DCDCDC;
+    margin: 8px 8px 0;
+}
+#locator {
+    margin: 0 auto;
+    width: auto;
+}
+#locator form {
+	position: relative;
+    /*margin-bottom: 16px;*/
+}
+#locator-geolocation {
+    margin: 16px 0;
+    padding:8px;
+}
+#locator form .locator-search {
+    position: relative;
+   /* width: 100%;*/
+   padding:8px;
+}
+#locator-geolocation a {
+    background: url("../../img/change_333.png") no-repeat scroll 99% 50% #333333;
+    color: #FFFFFF;
+    display: block;
+    padding: 12px 0;
+    text-decoration: none;
+}
+#locator-geolocation a:hover {
+	background-color: #1167A8;
+}
+#locator a#locator-prompt-change, #locator-geolocation a, #locator form input[type="text"] {
+    font-size: 1rem;
+    width: 100%;
+}
+#locator-geolocation span {
+    font-weight: 700;
+    padding-left: 8px;
+    position: relative;
+}
+#locator form span.locator-search-input {
+    padding-right: 34px;
+}
+#locator form span.locator-search-input {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #808080;
+    display: block;
+    padding: 0.7rem 6px;
+}
+#locator form label {
+    left: -2500px;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+}
+.locator-search #locator-search-input {
+    padding: 4px 0;
+}
+#locator form input[type="text"] {
+    width: 98.6%;
+    border-radius: 0 0 0 0;
+    clear: both;
+    font-weight: 300;
+    border: 0;
+}
+#locator a#locator-prompt-change, #locator-geolocation a, #locator form input[type="text"] {
+    font-size: 1rem;
+    width: 100%;
+}
+#locator form input[type="submit"] {
+    margin-top: -16px;
+    top: 50%;
+    z-index: 1;
+}
+#locator form input[type="submit"] {
+    background: url("../../img/submit.png") no-repeat scroll left top transparent;
+    border: 0 solid #FFFFFF;
+    cursor: pointer;
+    height: 31px;
+    line-height: 1.8em;
+    position: absolute;
+    right: 8px;
+    text-indent: -2500px;
+    width: 31px;
+}
+#locator form span.locator-search-input {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #808080;
+    display: block;
+    padding: 0.7rem 6px;
+}
+#locator form span.locator-search-input {
+    padding-right: 34px;
+}
+
+.ui-autocomplete {
+	background: #fff;
+	border: 1px solid #000;
+}
+
+.ui-autocomplete li {
+	position: relative;
+	height: 25px;
+}
+.ui-autocomplete li a {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	display: block;
+	padding: 4px;
+	text-align: left;
+	font-size: 1.4em;
+}
+
+.ui-autocomplete li a:hover,
+.ui-autocomplete li a:active,
+.ui-autocomplete li a:focus,
+.ui-autocomplete li a.ui-state-hover {
+	background-color: #404040;
+	color: #fff;
+}

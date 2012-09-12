@@ -1,0 +1,73 @@
+#scenarios {
+	height: 15px;
+	margin-left: 8px;
+}
+#scenarios li {
+	float: left;
+	margin-right: 8px;
+	padding-right: 8px;
+	font-size: 10px;
+	border-right: 1px solid black;
+}
+
+#blq-mast-bar {
+overflow: hidden;
+border-bottom: 1px solid #CCC;
+}
+
+#blq-blocks {
+float: left;
+}
+
+
+#blq-blocks a {
+display: block;
+width: 57px;
+height: 25px;
+margin: 0 5px 0 8px;
+background: transparent url(http://static.bbci.co.uk/frameworks/barlesque/2.8.7/mobile/3.5/img/blocks_240.png) 0 50% no-repeat;
+text-indent: -999em;
+}
+
+#site-brand {
+    background: none repeat scroll 0 0 #CC0101;
+    position: relative;
+}
+
+#site-brand a {
+	color: #fff;
+}
+
+.site-brand-inner {
+    height: 22px;
+    overflow: hidden;
+    padding: 13px 0 13px 8px;
+}
+
+#brand {
+    float: left;
+}
+
+#brand img {
+    display: block;
+}
+
+#editions-arrow {
+	display: block;
+	font-size: 2em;
+	color: #fff;	
+}
+
+#editions-button {
+	position: absolute;
+	top: 0;
+	right: 8px;
+	width: 60px;
+	height: 40px;
+	padding-top: 8px;
+	background: maroon;
+	color: #fff;
+	font-size: 01em;
+	text-align: center;
+	letter-spacing: 0.9px;
+}

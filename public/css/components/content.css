@@ -1,0 +1,97 @@
+h2.heading {
+	margin: 16px 8px 8px;
+	padding: 0 0 8px;
+	font-size: 2em;
+	font-weight: bold;
+	border-bottom: 1px solid gainsboro;
+}
+
+#stories {
+	padding: 16px 8px;
+
+}
+.news-content {
+	padding: 0px 8px;
+}
+
+.story:first-child .img {
+	float: none;
+	width: 100%;
+}
+
+.story img {
+	float: left;
+	display: block;
+	margin: 0 8px 8px 0;
+}
+
+
+.story:first-child .headline {
+	margin-bottom: 8px;
+	font-size: 2.4em;
+}
+
+.story .headline,
+.story a {
+	margin: 0;
+	padding: 0;
+	font-size: 2em;
+	line-height: 1;
+	text-indent: -0.0425em;
+	color: #404040;
+	font-weight: bold;
+}
+
+.story .headline {
+	margin-bottom: 8px;
+}
+
+.content-item h3,
+.story h3 {
+	color: indianred;
+	font-size: 1.5em;
+	margin: 8px 0;
+}
+
+.story .summary {
+clear: left;
+font-size: 1.6em;
+line-height: 1.25;
+}
+
+.story {
+	margin-bottom: 24px;
+}
+
+#sidebar {
+	display: none;
+}
+
+/*Import from the other app*/
+/* Thumb */
+.linktrack-thumb {
+	display: block;
+	float: left;
+	margin-right: 8px;
+}
+
+/* Content */
+.newsSection,
+.newsDateTime,
+.newsDateTimeNew {
+    font-size: 1rem;
+}
+
+.cmWidget li div.details,
+.cmWidget li div.itemText .newsSection {
+    color: #888888;
+}
+
+.newsDateTime {
+    color: #508D52;
+}
+
+.newsSection
+.newsDateTimeNew, .errorv {
+    color: #B52026;
+}

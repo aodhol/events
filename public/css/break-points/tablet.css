@@ -1,0 +1,13 @@
+@media all and (min-width: 640px) {
+	#site-nav-panel {
+		background: gainsboro;
+		overflow: hidden;
+		width: 340px;
+	}
+
+	.nav-top-open #site-nav-panel {
+		position: absolute;
+		right: 0;
+		display:block;
+	}
+}

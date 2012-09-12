@@ -1,0 +1,17 @@
+@media all and (min-width: 976px) {
+	#blq-local-nav a#nav-button{display:none;}
+	
+	#sidebar {
+		float: right;
+		display: block;
+		width: 336px;
+		height: 500px;
+		background-color: #EDEDED;
+	}
+	
+	#stories {
+		float: left;
+		width: 624px;
+	}
+}
+

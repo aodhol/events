@@ -1,0 +1,50 @@
+@media all and (min-width: 320px) {	
+	#blq-blocks a {
+		width: 74px;
+		height: 22px;
+		background-image: url(http://static.bbci.co.uk/frameworks/barlesque/2.8.7/mobile/3.5/img/blocks_320.png);
+		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEoAAAAVCAIAAABuau8EAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAtNJREFUeNrsV0+E6lEYnaanVatHREREq4hHRBlajMkw24i2bxUREa0iolUjWkWLMathVjNiMoko0ZAiUoqISInSmEV6Rx/X703/7v3VYx5zVrfvzj1zz73fd+73U5wdjdVqxcYKheJLsSm+5X1ReTqdTqvVYvD+/t5sNrnY9Xr96m98fHyUSiW/369SqXZtiIGHrVgs+nw+pVIpysZUxWKxbrf7ifbl5QW0Go1GTB5DoVDYqlBIHgN2I8oGBIPBxWKx2o16vc4lL5vN/lrD4/FUq1UK4njkyUun07/XSCQSbH/4KcSWTCbZ1OvrKzZDO7y5uQmHw0gxAXn39/csaDAYKPj09CRPHs6IBQOBAAUfHx/52bxeLwWn06mUTQpIRd5KIz94CnK5XJ6dDv1+nwawBM4lKNRIJEI7cblc5XJ565+9rSGNnB+khjulUikaPz8/H6kNpY/bo3Eul+NcZbPZkEEY3N3d7dIm5pzj8RglJzWoTCaz1e54khM81TVY4bEj42GLRqMUQZkJydmZnD/XYD+RSDA63ORgMJBxaoY1pGxqtRo3ORqNeJbT+wb0er3TyOt0Ovl8HgOoQm6YTCYU9PX1tcPhaDQaovJABUJKTqvVircLVnF1dXV5eVmr1Q4uZ1V64FnjT06pcwJ2ux1P51bzFHVOIBQKURxuzsOG5RSJx+P/RB4AYTQlTVp58lDD8HeaQpYeZMN/pKKFI7BE5cE5vzUbjUY2PtI/kZxMFQ/bZDK5vb0lnTjlXQoxi7ZBrGsB3G43OjKKw/1kJCe6CsaG9rXdbgslJ1kA9SX0siNLnU4ntXU4LOzw4eGBblhmzwnMZjOLxXKSnpN2aTab+dlw4axA9kCOPAhDNUrN/Rh5xIZZGV8MuKhKpbLJiavDBV5cXOz73sN1b57ocDjc89zt+UI7LdunlxB5RAc0n89brRYemM3m8ftr/X+W90eAAQDNFRRi8pdCDAAAAABJRU5ErkJggg==);
+		margin: 5px;
+		margin-left: 8px;
+	}
+}
+
+@media all and (max-width: 640px) {
+	#site-nav-panel {
+		background: gainsboro;
+		overflow: hidden;
+		width: 100%;
+		padding-top: 36px;
+	}
+
+	.nav-top-open #site-nav-panel {
+		display:block;
+	}
+
+	.nav-top-open #nav, .nav-top-open #content {
+		display:none;
+	}
+	
+	.nav-top-open #blq-local-nav{
+		background:transparent;	
+	}
+}
+
+
+@media all and (max-width: 310px) {
+	#nav-button {
+		background: transparent url(/img/sprite2.png) no-repeat 2px -56px;
+		float: right;
+		padding:8px;
+		padding-right: 28px;
+		text-indent: -999em;
+	}
+	
+	.nav-top-open #nav-button {
+		background: #fff url(/img/sprite2.png) no-repeat 2px -56px;
+	}
+	
+	#nav{
+		padding-right: 40px;
+	}
+}

@@ -1,303 +1,96 @@
-<!doctype html> 
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>BBC News - Near Me</title>
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>BBC News - Events</title>
+		<link rel="stylesheet" href="/css/style.css"> 
+		<meta content='width=device-width' name='viewport' />
+		<script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>	
+		<script type="text/javascript" src="/js/jquery-ui-1.8.23.custom.min.js"></script>
+		<script type="text/javascript" src="/js/jquery-ui-touch-punch.js"></script>
 
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<script type="text/javascript">		
 
-	<link rel="stylesheet" type="text/css" href="/stylesheets/reset.css">
-	<link rel="stylesheet" type="text/css" href="/stylesheets/default.css">
-<!--
-    <link rel="stylesheet" href="/stylesheets/gantt.css" />
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" /> -->
-
-
-	<script type="text/javascript" src="/javascripts/jquery-1.7.min.js"></script>
-<!--	<script type="text/javascript" src="/javascripts/jquery.fn.gantt.js"></script>
-	<script type="text/javascript" src="/javascripts/events.js"></script> -->
-
-</head>
-
-	<body>
-		<style>
-
-		.events{
-			width: 800px;
-			height:550px;
-			border:1px solid;
-			background: #eeeeee;
-		}
-
-		.bar{
-			margin:6px 10px;
-			border-radius:2px;
-		}
-
-		.event-0{
-
-			width:400px;
-			height:100px;
-
-			background: #ffffff; /* Old browsers */
-			background: -moz-linear-gradient(left, #ffffff 0%, #1e7512 100%, #7db9e8 100%); /* FF3.6+ */
-			background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(100%,#1e7512), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
-			background: -webkit-linear-gradient(left, transparent 0%,#1e7512 100%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
-			background: -o-linear-gradient(left, #ffffff 0%,#1e7512 100%,#7db9e8 100%); /* Opera 11.10+ */
-			background: -ms-linear-gradient(left, #ffffff 0%,#1e7512 100%,#7db9e8 100%); /* IE10+ */
-			background: linear-gradient(to right, #ffffff 0%,#1e7512 100%,#7db9e8 100%); /* W3C */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#7db9e8',GradientType=1 ); /* IE6-9 */
-		}
-
-		.event-1{
-			width:300px;
-			height:20px;
-			left:35px;
-			position:relative;			
-			background:-webkit-linear-gradient(left, transparent, black);
-		}
-
-		.event-2{
-			width:300px;
-			height:20px;
-			left:45px;
-			position:relative;			
-			background:-webkit-linear-gradient(left, transparent, black);
-		}
-
-		.event-3{
-			width:300px;
-			height:20px;
-			left:15px;
-			position:relative;			
-			background:-webkit-linear-gradient(left, transparent, black);
-		}
-
-		</style>
-
-		<script>
-		$(document).ready(function(){
-
-			var events = [];
-			var eventCounter = 0;
-		
-			function makeEvent(event){
-				
-				var bar = $("<div class='bar'/>");
-
-				var titleElement = $("<span class='event-title'>" + event.title + "</div>");
-
-				bar.append(titleElement);
-
-				var durationMillis = event.endDate - event.startDate;
-
-				var durationDays = durationMillis / 86400000;
-
-				var eventWidth = (durationDays * 100) / $('.events').width();
-
-				bar.css("width", eventWidth + "%");
-
-				bar.addClass("event-" + event.id);
-
-				return bar;
-
+			if (!window.bbc) {
+				window.bbc = {};
 			}
 
-			var testEv = {"id":0, "startDate":new Date('2011-03-15T12:38:00Z').getTime(),"endDate": new Date("2012-09-30T12:38:00Z").getTime(),"title":"Test event","parent":null};
-
-		var testEv2 = {"id":1, "startDate":new Date('2011-03-15T12:38:00Z').getTime(),"endDate": new Date("2011-11-20T12:38:00Z").getTime(),"title":"Test subevent", "parent:":0};
-
-
-		var testEv3 = {"id":2, "startDate":new Date('2011-03-15T12:38:00Z').getTime(),"endDate": new Date("2012-05-20T12:38:00Z").getTime(),"title":"Test subevent", "parent:":0};
-
-			var bar = makeEvent(testEv);
-
-			var bar2 = makeEvent(testEv2);
-
-			var bar3 = makeEvent(testEv3);
-
-			bar.append(bar2).append(bar3);
-
-			$('.events').append(bar);	
-
-			// if(testEv2.parent){
-			// 	var parent = events[testEv2.parent];
-			// 	parent.append(bar2);
-			// }else{
-			// 	$('.events').append(bar);				
-			// }
-
-			// events[testEv.id] = bar;
-
-			
-
-
-
-		});
-
-		
-		</script>
-
-		<div class="events">
-
-			<div class="bar event-0">
-				<span class="event-title">Arab spring</span>
-				<div class="bar event-1">
-					<span class="event-title">Libya</span>
-				</div>
-				<div class="bar event-2">
-					<span class="event-title">Egypt</span>
-				</div>
-				<div class="bar event-3">
-					<span class="event-title">Syria</span>
-				</div>
-			</div>
-
-		</div>
-
-<!--
-		<div id='results'></div>
-
-		<header role="banner">
-			<div id="global-header">
-				<a href="http://www.bbc.co.uk">
-					<img src="/images/bbc_blocks.png" width="84" height="24" alt="British Broadcasting Corporation" />
-				</a>
-			</div>
-			<div id="local-header">
-				<h1>
-					<a href="http://www.bbc.co.uk/news">News</a>
-					<span class="location"></span>
-				</h1>
-			</div>
-		</header>
-
-		<div id="container">
-
-			<section role="main">
-				<div id="story-list"></div>
-			</section>
-
-			<section role="complementary" id="local-people"></section>
-			<section role="complementary" id="local-companies"></section>
-
-		</div>
-
-		<footer>
-			<div id="footer-content">
-				<p>BBC &copy; 2012</p>
-			</div>
-		</footer>
-
-		<script>
-
-			function makeChart(data){
-
-				console.log(data)
-
-				$(".gantt").gantt({
-					source: data,
-					navigate: "scroll",
-					scale: "weeks",
-					maxScale: "months",
-					minScale: "days",
-					itemsPerPage: 10,
-					onItemClick: function(data) {
-						alert("Item clicked - show some details");
-					},
-					onAddClick: function(dt, rowId) {
-						alert("Empty space clicked - add an item!");
-					}
+			bbc.newsPrototype = {};
+				
+			$(function() {
+		        //sections toggle
+		        $('#nav-button').click(function(e) {
+		        	e.preventDefault();
+			        $('body').toggleClass('nav-top-open');
+			        
+	  			});
+	  			
+	  			//subsections toggle
+		        $('.expand').click(function(e) {
+		        	e.preventDefault();
+			        $(this).toggleClass('open');
+			        $(this).next().toggleClass('open');
 				});
-			}
-
-			function strToMillis(str){
-
-				console.log("STR:" + str)
-				return new Date(str).getTime();
-			}
-
-			$(document).ready(function(){
-
-				console.log("output");
-
 				
+				//customise button
+				$('#edit-button').click(function(e) {
+		        	e.preventDefault();
+		        	$(this).toggleClass('edit');
+		        	var sectionList = $(this).parent().next();
+		        	sectionList.sortable({items: "li:not('#section_1')"});
 
-				// $(".gantt").popover({
-				// 	selector: ".bar",
-				// 	title: "I'm a popover",
-				// 	content: "And I'm the content of said popover."
-				// });
-
-
-				getEvents(function(error,data){
-					if(data != null){
-						console.log("DATA:",data);
-
-						var ganttData = [];
-
-						for(var i = 0; i < data.length; i++){
-
-							var item = data[i]; 
-							if(item.start_at != null && item.end_at != null){
-								console.log("ITEM:", item)
-								ganttData.push({"name":"Some name","desc":"Some desc","values":[{"from":"/Date(" + strToMillis(item.start_at) + ")/","to":"/Date(" + strToMillis(item.end_at) + ")/","label":item.title,"customClass":"ganttRed"}]});
-
-								var itemTmp = {
-									name: " ",
-									desc: "Scoping",
-									values: [{
-										from: "/Date(1322611200000)/",
-										to: "/Date(1323302400000)/",
-										label: "Scoping", 
-										customClass: "ganttRed"
-									}]
-								};
-
+		        	if(sectionList.hasClass('edit')){
+		        		$(this).text('CUSTOMISE');
+			        	sectionList.sortable("disable");
+			        	
+			        	var myArray = sectionList.sortable('toArray');			        	
+			        	var placeholder = $('<ul/>');
+			        	placeholder.append($('#nav #nav_1'));
+			        	
+						$.each(myArray,function(index,value){
+							if (value !== '') {
+								var navId = value.replace("section_","nav_");
+								placeholder.append($('#nav #'+navId));
 							}
-						};
-
-						ganttData.push(itemTmp)
-
-						makeChart(ganttData);
-
-						/*
-[{
-						name: "Sprint 0",
-						desc: "Analysis",
-						values: [{
-							from: "/Date(1320192000000)/",
-							to: "/Date(1322401600000)/",
-							label: "Requirement Gathering", 
-							customClass: "ganttRed",
-
-						}]
-					},{
-						name: " ",
-						desc: "Scoping",
-						values: [{
-							from: "/Date(1322611200000)/",
-							to: "/Date(1323302400000)/",
-							label: "Scoping", 
-							customClass: "ganttRed"
-						}]
-					}]
-						*/
-
-
-
-					}else{
-						console.log("Error:",error)
-					}
+						});
+						
+						$('#nav').empty().append(placeholder.children());
+		        	} else {
+		        		$(this).text('SAVE');
+			        	sectionList.sortable("enable");
+		        	}
+			        sectionList.toggleClass('edit');
 				});
 
 			});
-
 		</script>
 
-		<div class="gantt"></div>
--->
+	</head>
+	<body>
+	<header>
+	  	<div id="blq-mast-bar">
+	  		<div id="blq-blocks"><a href="/">BBC</a></div>
+	  	</div>   
+		
+		<div id="site-brand">
+	        <div class="site-brand-inner">
+	            <a id="brand" href="/">
+	                <img width="86" height="23" alt="BBC News" src="/img/news-brand-22.gif">
+	            </a>
+			</div>
+	    </div>
+		    
+		<% include nav %>
+
+	</header>
+
+	<section id="content">
+		<% include content %>
+	</section>
+    <script type="text/javascript" src="/js/jcookie.min.js"></script>
+	<script type="text/javascript" src="/js/change-locale.js"></script>
+	<script type="text/javascript">
+		bbc.newsPrototype.changeLocale.init();
+	</script>
 	</body>
-</html> 
+</html>

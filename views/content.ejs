@@ -1,0 +1,38 @@
+	{% if section == 'local' %}
+	<section id="local">
+		<div id="stories">
+			{% include 'local.html' %}
+		</div>
+		<div id="sidebar"></div>
+	</section>
+	{% elseif section == 'me' %}
+	<section id="me">
+		<div id="stories">
+			{% include 'me.html' %}
+		</div>
+		<div id="sidebar"></div>
+	</section>
+	{% else %}
+	<section>
+	<!--<h2 class="heading">{{ sectionTree.sections[section].title }}</h2>-->
+		<div id="stories">
+		{% for story in stories %}
+			<div class="story">
+			{% if loop.index0 == 0 %}
+				<h2 class="headline">{{story.headline}}</h2>
+				<!--<div class="img"></div>-->
+				<img src="{{story.img}}" class="img"/>
+			{% else %}
+				<!--<div class="img"></div>-->
+				<img src="{{story.img}}" class="img"/>
+				<h2 class="headline">{{story.headline}}</h2>
+			{% endif %}
+			<div class="summary">{{story.summary}}</div>
+			</div>
+		{% endfor %}
+		</div>
+		<div id="sidebar"></div>
+	{% endif %}
+</section>
+		
+		

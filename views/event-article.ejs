@@ -1,0 +1,132 @@
+event article: 
+
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>BBC News - Events</title>
+		<link rel="stylesheet" href="/css/style.css"> 
+		<meta content='width=device-width' name='viewport' />
+		<script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>	
+		<script type="text/javascript" src="/js/jquery-ui-1.8.23.custom.min.js"></script>
+		<script type="text/javascript" src="/js/jquery-ui-touch-punch.js"></script>
+
+		<script type="text/javascript" src="/javascripts/article.js"></script>
+
+		<script type="text/javascript">	
+
+			var articleIdx = 0;
+			var displayedIndex = 0;
+			var retrievedIndex = 0;
+
+          
+
+    		function handleArticleIds(error,data){
+
+    			if(data != null){
+
+    				articleIds = JSON.parse(data);
+
+    				console.log("ARTICLE IDS:" + articleIdx);
+
+    				// getArticle(articleIdx,function(error,data){
+    				// 	console.log("Getting article for index:" + articleIdx + " article data:",data);
+    				// 	renderArticle(data.article);    					
+    				// });
+
+                    // getArticle(articleIdx,function(error,data){
+                    //     console.log("Getting article for index:" + articleIdx + " article data:",data);                        
+                    // });
+
+                    handleStoryClick();
+    			}
+    		}
+
+            function handleStoryClick(){
+
+                console.log("handling story click")
+
+                getArticle(articleIdx++,function(error,data){
+                    renderArticle(data.article);
+                });
+                //Get next story and cache.
+                getArticle(articleIdx,function(error,data){
+                });    
+
+                getArticle(articleIdx+1,function(error,data){
+                });
+
+
+                getArticle(articleIdx+2,function(error,data){
+                });
+
+
+            }
+
+			function renderArticle(article){
+
+				var containerSection = $("#content");
+				var storyElement = $('#stories .story');
+
+				//storyElement.click(handleStoryClick);
+
+				var headlineElement = $('.headline',storyElement);
+				var imageElement = $('.img',storyElement);
+				var summaryElement = $('.summary',summaryElement);
+
+				headlineElement.text(article.title);
+				summaryElement.text(article.description);
+				imageElement.attr("src",article.full_data.image.origin);
+			}
+
+
+			$(document).ready(function(){
+
+				var displayedIndex = 0;
+				
+                var retrievedIndex = 0;
+
+				var articleCache = [];		
+
+                var containerSection = $("#content");
+                
+                containerSection.click(handleStoryClick);		
+
+				getArticleIds("<%=event_id%>",handleArticleIds);
+
+			});
+		</script>
+	</head>
+
+	<body>
+	<header>
+	  	<div id="blq-mast-bar">
+	  		<div id="blq-blocks"><a href="/">BBC</a></div>
+	  	</div>   
+		
+		<div id="site-brand">
+	        <div class="site-brand-inner">
+	            <a id="brand" href="/">
+	                <img width="86" height="23" alt="BBC News" src="/img/news-brand-22.gif">
+	            </a>
+			</div>
+	    </div>
+		    
+		<% include nav %>
+
+	</header>
+
+	<section id="content">
+		<div id="stories">
+			<div class="story">
+				<h2 class="headline"></h2>
+				<img src="" class="img">
+				<div class="summary"></div>
+			</div>
+		</div>
+	</section>
+
+	</body>
+
+</html>

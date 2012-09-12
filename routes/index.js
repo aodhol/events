@@ -1,4 +1,6 @@
-var restler = require('restler');
+var restler = require('restler'),
+    url = require('url'),
+    http = require('http');
 
 /*
  * GET home page.
@@ -32,6 +34,66 @@ exports.articles = function(req, res){
       }
     });
 };
+
+exports.image = function(req,res){
+
+    var id = parseInt(req.param('id'));
+
+    var request = restler.get("http://juicer.responsivenews.co.uk/articles/" + id + ".json");
+
+    console.log("URL:" + "http://juicer.responsivenews.co.uk/articles/" + id + ".json")
+
+    request.on('complete', function(result) {
+
+      if (result instanceof Error) {
+        console.log('Error: ' + result.message);
+        res.send();
+      } else {
+
+       if(result.article){
+
+        var parsedUrl = url.parse(result.article.full_data.image.origin);
+
+        var options = {
+          host: parsedUrl.host,
+          port: 80,
+          path: parsedUrl.path,
+          method: 'GET'
+        };
+
+        var data = '';
+
+        var imgReq = http.request(options, function(imgRes) {
+
+            imgRes.setEncoding('binary');
+
+            imgRes.on('data', function (chunk) {
+              data += chunk;
+            });
+          
+            imgRes.on('end',function(){
+              var image = new Buffer(data, 'binary');
+              res.setHeader('Cache-Control', 'public, max-age=' + 3600);
+              res.writeHead(200, {'Content-Type': 'image/jpg','Content-Length' : image.length});
+              res.end(image);
+            });
+
+        });
+
+        imgReq.on('error', function(e) {
+          console.log('problem with request: ' + e.message);
+        });
+
+        imgReq.end();
+
+        }else{
+            res.send();
+        }
+    }
+
+    });
+
+}
 
 // exports.get_events = function(req, res){
     
@@ -81,6 +143,8 @@ url: "http://www.bbc.co.uk/news/world-middle-east-19484240"
     for(var i = 0; i < articles.length; i++){
 
         var article = articles[i];
+
+       // console.dir(article)
         
         var pubDate = getTlDate(article.published);
 
@@ -131,7 +195,14 @@ url: "http://www.bbc.co.uk/news/world-middle-east-19484240"
             "startDate":pubDate,
             "endDate":pubDate,
             "headline":article.title,
-            "text":articleText
+            "text":'',
+            "asset":
+            {
+                "media":"http://localhost:5000/image/" + article.cps_id + ".jpg",
+                "credit":"",
+                "caption":""
+            }
+
         };
 
         items.push(tlEvent);
@@ -164,6 +235,42 @@ function getArticle(articleId,callback){
     });
 }
 
+exports.list_event_articles = function(req,res){
+
+    var eventId = req.param('event_id');
+
+    var request = restler.get("http://juicer.responsivenews.co.uk/events/" + eventId + ".json");
+
+    console.log("http://juicer.responsivenews.co.uk/events/" + eventId);
+
+    request.on('complete', function(result) {
+      if (result instanceof Error) {
+        console.log('Error: ' + result.message);
+      } else {
+
+        //res.send instead of res.json as callback automatically added and causes problems
+        //on front end..
+        res.setHeader('Cache-Control', 'public, max-age=' + 3600);
+
+        var ids = [];
+
+        for(var i = 0; i < result.articles.length; i++){
+            ids.push(result.articles[i].cps_id);
+        }
+
+        res.send(JSON.stringify(ids));
+
+      }
+    });
+}
+
+exports.event_article = function(req,res){
+    var eventId = req.param('event_id');
+
+    res.render('event-article',{"event_id":eventId});
+
+}
+
 exports.get_event = function(req, res){
 
     var eventId = req.param('id');
@@ -179,7 +286,7 @@ exports.get_event = function(req, res){
 
         //res.send instead of res.json as callback automatically added and causes problems
         //on front end..
-        
+         res.setHeader('Cache-Control', 'public, max-age=' + 3600);
 
          res.send(JSON.stringify(transform(result)));
       }
@@ -193,8 +300,24 @@ exports.get_events = function(req, res){
     request.on('complete', function(result) {
       if (result instanceof Error) {
         console.log("Error:",result);
-      } else {
-        res.render("events",{"events":result});
+      } else {//
+        res.render("events",{"events":result,layout:true});
+      }
+    });
+}
+
+exports.article = function(req,res){
+    
+    var id = parseInt(req.param('id'));
+
+    var request = restler.get("http://juicer.responsivenews.co.uk/articles/" + id + ".json");
+
+    request.on('complete', function(result) {
+      if (result instanceof Error) {
+        console.log("Error:",result);
+      } else {//
+        res.setHeader('Cache-Control', 'public, max-age=' + 3600);
+        res.json(result);
       }
     });
 }

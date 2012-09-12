@@ -1,0 +1,197 @@
+#blq-local-nav{
+	background: #DCDCDC;
+	position:relative;
+}
+
+#blq-local-nav a {
+	color: #1E1E1E;
+	font-size: 16px;
+	line-height: 1.25;
+	letter-spacing: 0;
+	font-weight: 700;
+	-webkit-font-smoothing: antialiased;
+	display:block;
+}
+
+#nav {
+	float:left;
+	height:36px;
+	overflow: hidden;
+	padding-right:110px;
+}
+
+#nav li {
+	float: left;
+	padding:8px;
+	border-right:1px solid #fff;
+	display:block;
+}
+
+#nav li:first-child{
+	width:20px;
+}
+
+#nav li:first-child a {
+	background: transparent url(/img/sprite2.png) no-repeat -4px -34px;
+	text-indent: -999em;
+	color: transparent;
+}
+
+#nav li.selected:first-child a {
+	background-position: -4px -10px;
+}
+
+#nav li.selected a {
+	color: #D60000;
+}
+#nav li.selected.subsection a {
+	font-weight: normal;
+}
+#nav li.selected {
+	background: #fff;	
+}
+
+#nav li.section{
+	border:none;
+}
+#nav li.subsection{
+	background: #fff url(/img/sprite2.png) no-repeat -8px -205px;
+}
+
+/*Sections button*/
+#nav-button {
+	background: transparent url(/img/sprite2.png) no-repeat 72px -56px;
+	float: right;
+	padding:8px;
+	padding-right: 28px;
+	position:absolute;
+	top:0px;
+	right:0px;
+	display:none;
+}
+
+.nav-top-open #nav-button {
+	background: #fff url(/img/sprite2.png) no-repeat 73px -275px;
+}
+
+#edit-button {
+	border:1px solid #DCDCDC;
+	width:70px;
+	margin:8px 0 8px 8px;
+	font-size:12px;
+	background:#EDEDED;
+	color:#999;
+	line-height: 0px
+}
+#edit-button.edit {
+	width:30px;
+}
+
+.site-navigation {
+	display: block;
+	position: relative;
+	overflow: hidden;
+	background-color: white;
+	z-index: 99;
+}
+
+.site-navigation li {
+	position: relative;
+	margin-bottom: 1px;
+}
+	
+.site-navigation a {
+	position: relative;
+	font-size: 16px;
+	display: block;
+	padding: 12px 8px;
+	color: #333;
+}
+
+.site-navigation .expand{
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 100;
+	display: block;
+	width: 40px;
+	height: 40px;
+	background: transparent url(/img/sprite2.png) no-repeat 2px -120px;
+	border-left: 1px solid gainsboro;
+	text-indent: -999em;
+	color:transparent;
+}
+
+.site-navigation .expand.open{
+	background-position: 0px -154px;
+}
+
+.site-navigation a::before {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: -1px;
+	display: block;
+	content: '';
+	height: 1px;
+	background-color: gainsboro;
+}
+
+.site-navigation ul li:first-child a::before{
+	position: absolute;
+	left: 8px;
+	right: 8px;
+	top: 0px;
+	display: block;
+	content: '';
+	height: 1px;
+	background-color: gainsboro;
+}
+
+#site-nav-panel {
+	display:none;
+}
+
+#nav-tablet,#nav-desktop{
+	display:none;
+}
+
+/*customise*/
+.site-navigation ul.edit li ul, .site-navigation ul.edit li .expand {
+	display:none;
+}
+.site-navigation ul.edit li:first-child{
+	background: none;
+}
+.site-navigation ul.edit li{
+	background: transparent url(/img/sprite2.png) no-repeat right -87px;
+}
+
+
+/*subsections*/
+.site-navigation ul li ul {
+	background: #ededed;
+	-webkit-transition: all 0.5s ease-in;
+	-moz-transition: all 0.5s ease-in;
+	-o-transition: all 0.5s ease-in;
+	transition: all 0.5s ease-in;
+	max-height:0px;
+	overflow: hidden;
+}
+
+.site-navigation ul li ul.open {
+	max-height:200px;
+}
+
+.site-navigation ul li ul li:first-child::before {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: -1px;
+	display: block;
+	content: '';
+	height: 1px;
+	background-color: #999;
+}
+
+
