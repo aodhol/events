@@ -1,6 +1,3 @@
-event article: 
-
-
 <!doctype html>
 <html lang="en">
 	<head>
@@ -8,9 +5,22 @@ event article:
 		<title>BBC News - Events</title>
 		<link rel="stylesheet" href="/css/style.css"> 
 		<meta content='width=device-width' name='viewport' />
-		<script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>	
-		<script type="text/javascript" src="/js/jquery-ui-1.8.23.custom.min.js"></script>
-		<script type="text/javascript" src="/js/jquery-ui-touch-punch.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>	
+		
+
+       
+
+    <!-- <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" /> -->
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <!-- <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="/css/jquery.mobile.pagination.css">
+    <script src="/js/jquery.mobile.pagination.js"></script> -->
+</head>
+<body>
+
+
+</body>
 
 		<script type="text/javascript" src="/javascripts/article.js"></script>
 
@@ -18,15 +28,14 @@ event article:
 
 			var articleIdx = 0;
 			var displayedIndex = 0;
-			var retrievedIndex = 0;
-
-          
+			var retrievedIndex = 0;         
 
     		function handleArticleIds(error,data){
 
     			if(data != null){
 
-    				articleIds = JSON.parse(data);
+    				console.log(data);
+    				articleIds = data.article_ids;
 
     				console.log("ARTICLE IDS:" + articleIdx);
 
@@ -39,6 +48,57 @@ event article:
                     //     console.log("Getting article for index:" + articleIdx + " article data:",data);                        
                     // });
 
+	                var storyInfo = $("#story-info");
+                    var storyNumber = $(".total-stories",storyInfo);
+                    storyNumber.text(articleIds.length);
+
+                    var agents = data.agents;
+
+                    var list = $("<ul>");
+
+                    for(var i = 0; i < agents.length; i++){
+                    	var item = $("<li>").text(agents[i].label);
+                    	list.append(item);
+                    }
+
+                    $("#agents").append(list);
+
+
+                    var agents = data.agents;
+
+                    var list = $("<ul>");
+
+                    for(var i = 0; i < agents.length; i++){
+                    	var item = $("<li>").text(agents[i].label);
+                    	list.append(item);
+                    }
+
+                    $("#agents").append(list);
+
+                    var places = data.places;
+
+                    var list = $("<ul>");
+
+                    for(var i = 0; i < places.length; i++){
+                    	var item = $("<li>").text(places[i].label);
+                    	list.append(item);
+                    }
+
+                    $("#places").append(list);
+
+                    var concepts = data.concepts;
+
+                    var list = $("<ul>");
+
+                    for(var i = 0; i < concepts.length; i++){
+                    	var item = $("<li>").text(concepts[i].label);
+                    	list.append(item);
+                    }
+
+                    $("#concepts").append(list);
+
+
+
                     handleStoryClick();
     			}
     		}
@@ -49,18 +109,12 @@ event article:
 
                 getArticle(articleIdx++,function(error,data){
                     renderArticle(data.article);
+                    var storyInfo = $("#story-info");
+
+                    var storyNumber = $(".story-number",storyInfo);
+                    storyNumber.text(articleIdx);
+
                 });
-                //Get next story and cache.
-                getArticle(articleIdx,function(error,data){
-                });    
-
-                getArticle(articleIdx+1,function(error,data){
-                });
-
-
-                getArticle(articleIdx+2,function(error,data){
-                });
-
 
             }
 
@@ -75,11 +129,12 @@ event article:
 				var imageElement = $('.img',storyElement);
 				var summaryElement = $('.summary',summaryElement);
 
+				console.log("ARTICLE:",article)
+
 				headlineElement.text(article.title);
 				summaryElement.text(article.description);
 				imageElement.attr("src",article.full_data.image.origin);
 			}
-
 
 			$(document).ready(function(){
 
@@ -117,6 +172,8 @@ event article:
 
 	</header>
 
+
+
 	<section id="content">
 		<div id="stories">
 			<div class="story">
@@ -125,7 +182,31 @@ event article:
 				<div class="summary"></div>
 			</div>
 		</div>
+		<div id="story-info">
+			<span class="story-number">1</span> of <span class="total-stories"></span>
+		</div>
 	</section>
+
+	<section id="metadata">
+		<div id="agents">
+			<h2 class="headline">Agents</h2>
+		</div>
+		<div id="concepts">
+			<h2 class="headline">Concepts</h2>
+		</div>
+		<div id="places">
+			<h2 class="headline">Places</h2>
+		</div>
+	</section>
+
+
+
+
+
+
+
+
+
 
 	</body>
 

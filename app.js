@@ -6,7 +6,8 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
-  , expressLayouts = require('express-ejs-layouts');
+  , expressLayouts = require('express-ejs-layouts')
+  , gzippo = require('gzippo');
 
 var app = express();
 
@@ -25,6 +26,13 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
+
+
+//Replace the default connect or express static provider with gzippo's
+//app.use(express.static(__dirname + '/public'));
+app.use(gzippo.staticGzip(__dirname + '/public'));
+app.use(gzippo.staticGzip(__dirname + '/public'));
+app.use(gzippo.compress());
 
 app.get('/', routes.index);
 //app.get('/events', routes.get_events);
@@ -50,7 +58,6 @@ app.get('/panel2', routes.panel2);
 app.set('view options', {
   layout: true
 });
-
 
 app.get("/article/:id",routes.article);
 

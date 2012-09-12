@@ -239,9 +239,14 @@ function getArticle(articleId,callback){
     });
 }
 
+
 exports.list_event_articles = function(req,res){
 
+  console.log("listing event articles");
+
     var eventId = req.param('event_id');
+
+    res.setHeader('Cache-Control', 'public, max-age=' + 3600);
 
     var request = restler.get("http://juicer.responsivenews.co.uk/events/" + eventId + ".json");
 
@@ -255,20 +260,24 @@ exports.list_event_articles = function(req,res){
         //res.send instead of res.json as callback automatically added and causes problems
         //on front end..
         res.setHeader('Cache-Control', 'public, max-age=' + 3600);
-
+        res.setHeader('Expires','Mon, 12 Sept 2012 20:09:00 GMT');
+        
         var ids = [];
 
         for(var i = 0; i < result.articles.length; i++){
-            ids.push(result.articles[i].cps_id);
+          ids.push(result.articles[i].cps_id);
         }
 
-        res.send(JSON.stringify(ids));
+        console.log("listed event articles");
+
+        res.json({"article_ids":ids,"agents":result.agents,"places":result.places,"concepts":result.concepts});
 
       }
     });
 }
 
 exports.event_article = function(req,res){
+
     var eventId = req.param('event_id');
 
     res.render('event-article',{"event_id":eventId});
@@ -297,6 +306,37 @@ exports.get_event = function(req, res){
     });
 }
 
+
+function relate(events){
+
+  var parentEvents = [];
+  var parentEventsById = [];
+  var childEvents = [];
+
+  for(var i = 0; i < events.length; i++){
+    if(events[i].parent_id == null){
+      parentEventsById[events[i].id] = events[i];
+      parentEvents.push(events[i]);
+    }else{
+      childEvents.push(events[i]);
+    }
+  }
+
+  for(var i = 0; i < childEvents.length; i++){
+    console.log("looping")
+    var childEvent = childEvents[i];
+    var parentEventId = childEvent.parent_id;
+    var parentEvent = parentEventsById[parentEventId];
+    if(parentEvent.childEvents == undefined){
+      parentEvent.childEvents = [];
+    }
+    parentEvent.childEvents.push(childEvent);
+  }
+
+  return parentEvents;
+
+}
+
 exports.get_events = function(req, res){
      
     var request = restler.get("http://juicer.responsivenews.co.uk/events.json");
@@ -305,7 +345,12 @@ exports.get_events = function(req, res){
       if (result instanceof Error) {
         console.log("Error:",result);
       } else {//
-        res.render("events",{"events":result,layout:true});
+
+        var related = relate(result);
+
+        console.log("RELATED:",related)
+
+        res.render("events",{"events":result,"related":related});
       }
     });
 }
@@ -320,6 +365,7 @@ exports.article = function(req,res){
       if (result instanceof Error) {
         console.log("Error:",result);
       } else {//
+        console.log("setting cache header");
         res.setHeader('Cache-Control', 'public, max-age=' + 3600);
         res.json(result);
       }

@@ -23,3 +23,7 @@ function getEvent(){
 function isValid(event){
 
 }
+
+function formatData(events){
+	
+}

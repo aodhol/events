@@ -16,6 +16,7 @@
     "restler": "*",
     "nodemon": "*",
     "express-ejs-layouts": "*",
-    "url": "*"
+    "url": "*",
+    "gzippo": "*"
   }
 }

@@ -88,35 +88,59 @@ ol.events-list li div{
 				<div id="story-list"></div>
 
 <ol class="events-list">
+
 <%
-for(var i = 0; i < events.length; i++){
+
 %>
 
-<% if (events[i].articles.length > 0) { %>
+<%
+for(var i = 0; i < related.length; i++){
+%>
+
+<% if (related[i].articles.length > 0) { %>
 
 
-	<%var event = events[i];%>
+	<%var event = related[i];%>
 
 	<%
 	var concepts = event.concepts;
 	%>
 
 	<li>
-		<a href="/timeline/<%=event.id%>"><%=event.title%></a><div>First published <span class="event-created-at"><%=event.created_at%></span> has <%=event.articles.length%> <%=(event.articles.length > 1 ? 'stories':'story')%> mainly about: 
-		<ul class="event-concepts">
-	<%
-	for(var j = 0; j < concepts.length; j++){
-		var label = concepts[j].label;
-		var title = concepts[j].title;
-	%>
-		<li><a href="/concept/<%=title%>"><%=label%></a></li>
-	<%
-	}
-	%>
-		</ul>
-		</div>
+		<a href="/timeline/<%=event.id%>"><%=event.title%></a>
+    		<div class="event-info">First published <span class="event-created-at"><%=event.created_at%></span> has <%=event.articles.length%> <%=(event.articles.length > 1 ? 'stories':'story')%> mainly about:
+
+    			<ul class="event-concepts">
+    				<%
+    				for(var j = 0; j < concepts.length; j++){
+    					var label = concepts[j].label;
+    					var title = concepts[j].title;
+    				%>
+    					<li><a href="/concept/<%=title%>"><%=label%></a></li>
+    				<%
+    				}
+    				%>
+    			</ul>
+    		</div>
+            <div class="sub-events">
+            <%
+            if(event.childEvents){
+            %>
+                <ul>
+                <%for(var k = 0; k < event.childEvents.length; k++){%>
+                    <%var childEvent = event.childEvents[k];%>
+                    <% if(childEvent.articles.length > 0){ %>
+                    <li><a href="/timeline/<%=childEvent.id%>"><%=childEvent.title%></a></li>
+                    <% } %>
+                <%}%>
+                </ul>
+            <%
+            }
+            %>
+            </div>
+
 	</li>
-	<%}%>
+<%}%>
 
 <%	
 }

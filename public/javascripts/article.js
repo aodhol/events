@@ -30,10 +30,6 @@ var cache = [];
 var requests = [];
 function getArticle(index,callback){
 
-	/*if(index > articleIds.length){
-		index = articleIds % articleIds.length -1;
-	}*/
-
 	console.log("Getting article for index:" + index);
 
 	if(requests[index] == undefined && cache[index] == undefined){
@@ -53,7 +49,9 @@ function getArticle(index,callback){
 		
 		console.log("getting:" + "http://localhost:5000/article/" + articleId);
 		
-		var jqxhr = $.ajax( "http://localhost:5000/article/" + articleId);
+		var jqxhr = $.ajax( {"url":"http://localhost:5000/article/" + articleId,
+			"cache":true
+		});
 
 		jqxhr.done(function(data) {
 			
