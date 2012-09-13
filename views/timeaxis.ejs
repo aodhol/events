@@ -8,7 +8,25 @@ head, body {
 	padding: 0;
 }
 </style>
+<script type="text/javascript" src="/js/timeaxis.js"></script>
 <script type="text/javascript">
+(function () {
+	var daysEvent = {
+		"end_at":"2012-09-25T14:45:00Z",
+		"start_at":"2012-08-25T14:45:00Z",
+		"articles":[
+			{ "published":"2012-08-31T22:29:46Z", "cps_id":"19446801" },
+			{ "published":"2012-09-02T22:29:46Z", "cps_id":"19446802" },
+			{ "published":"2012-09-05T22:29:46Z", "cps_id":"19446803" },
+			{ "published":"2012-09-12T22:29:46Z", "cps_id":"19446804" }
+		]
+	};
+	
+	var ta = new TimeAxis();
+	ta.renderTimeline(daysEvent, '19446803');
+})();
+</script>
+<!-- <script type="text/javascript">
 var canvas = document.getElementById('timeaxis'),
 	context = canvas.getContext('2d'),
 	canvasHeight = canvas.height,
@@ -140,4 +158,4 @@ function addKey() {
 	}
 	
 }
-</script>
+</script> -->
