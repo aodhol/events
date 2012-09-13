@@ -47,9 +47,12 @@ TimeAxis.prototype.init = function(){
 
 TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 	ev = event;
+	console.log(ev);
 	articleId = currentArticleId;
 	start = new Date(ev.start_at);
-	end = new Date(ev.end_at);
+	console.log(ev.start_at);
+	end = (ev.end_at) ? new Date(ev.end_at) : new Date();
+
 	var datediff = end.getTime() - start.getTime(),
 		seconds = datediff / 1000,
 		minutes = seconds / 60,
@@ -71,6 +74,8 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 		scaleKey = 'years';
 		scaleValue = years;
 	}
+
+	console.log(scaleKey);
 
 	this.getSizes();
 	this.background();
@@ -101,13 +106,16 @@ TimeAxis.prototype.addArticles = function() {
 		var articleDate = new Date(ev.articles[article][articleTimelineKey]);
 
 		diff = this.getDateShort(articleDate).getTime() - this.getDateShort(start).getTime();
+		console.log(start);
+		console.log('diff: ' + diff);
 		if (scaleKey !== 'hours') {
 			fullDiff = this.getDateShort(end).getTime() - this.getDateShort(start).getTime();
+			console.log('full: ' + fullDiff);
 			position = (canvasWidth / fullDiff) * diff;
 		} else {
 			position = Math.floor(diff / (1000 * 60 * 60));
 		}
-
+		console.log(position);
 		this.addMarker(position, (ev.articles[article].id === articleId));
 	}
 }
