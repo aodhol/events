@@ -48,7 +48,9 @@
     			if(data != null){
 
     				console.log(data);
-    				articleIds = data.article_ids.ids;
+    				articleIds = data.article_ids;
+
+    				console.log("article ids:",articleIds)
 
     				console.log("ARTICLE IDS:" + articleIdx);
 
@@ -114,12 +116,7 @@
 				var event = {
 					"end_at":"2012-09-25T14:45:00Z",
 					"start_at":"2012-08-25T14:45:00Z",
-					"articles":[
-						{ "published":"2012-08-31T22:29:46Z", "cps_id":"19446801" },
-						{ "published":"2012-09-02T22:29:46Z", "cps_id":"19446802" },
-						{ "published":"2012-09-05T22:29:46Z", "cps_id":"19446803" },
-						{ "published":"2012-09-12T22:29:46Z", "cps_id":"19446804" }
-					]
+					"articles":articleIds
 				};
 				timeAxis.renderTimeline(event, '19446803');
 
