@@ -8,10 +8,10 @@ var fontHeight = 16,
 	start,
 	end,
 	articleId,
-	maxKeys = { 'days':40, 'hours':36, 'months':18 },
+	maxKeys = { 'days':40, 'hours':36, 'months':18, 'years':100 },
 	canvas = null,
 	months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
-	colours = { 'background': '#fff', 'article':'#ccc', 'current':'#c11b17' };
+	colours = { 'background': '#fff', 'article':'#ccc', 'current':'#f87217' };
 
 var TimeAxis = function(){
 	this.init();
@@ -58,12 +58,9 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 		monthsTotal = days / 30,
 		years = monthsTotal / 12;
 
-		console.log(monthsTotal);
-		console.log(maxKeys['months']);
-
 	if (hours < maxKeys['hours']) {
 		scaleKey = 'hours';
-		scaleValue = 'hours';
+		scaleValue = hours;
 	} else if (days < maxKeys['days']) {
 		scaleKey = 'days';
 		scaleValue = days;
@@ -103,21 +100,26 @@ TimeAxis.prototype.addArticles = function() {
 	for (article in ev.articles) {
 		var articleDate = new Date(ev.articles[article][articleTimelineKey]);
 
-		diff = articleDate.getTime() - start.getTime();
-		if (scaleKey === 'days') {
-			position = Math.floor(diff / (1000 * 60 * 60 * 24));
-		} else if (scaleKey === 'months') {
-			position = Math.floor(diff / (1000 * 60 * 60 * 24 * (new Date(articleDate.getFullYear(), articleDate.getMonth(), 0).getDate())));
+		diff = this.getDateShort(articleDate).getTime() - this.getDateShort(start).getTime();
+		if (scaleKey !== 'hours') {
+			fullDiff = this.getDateShort(end).getTime() - this.getDateShort(start).getTime();
+			position = (canvasWidth / fullDiff) * diff;
 		} else {
-			position = Math.floor(diff / (1000 * 60 * 60 * 24 * 30 * 12));
+			position = Math.floor(diff / (1000 * 60 * 60));
 		}
+
 		this.addMarker(position, (ev.articles[article].id === articleId));
 	}
 }
 
+TimeAxis.prototype.getDateShort = function (date) {
+	return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
 TimeAxis.prototype.addMarker = function(point, current) {
+	width = (scaleKey !== 'days') ? 4 : keyWidth;
 	context.fillStyle = (current) ? colours.current : colours.article;
-	context.fillRect(point * keyWidth, 0, keyWidth, canvas.height);
+	context.fillRect(point, 0, width, canvas.height / 4);
 }
 
 TimeAxis.prototype.addKey = function() {
@@ -133,7 +135,10 @@ TimeAxis.prototype.addKey = function() {
 
 	while (currentDate <= end) {
 		//if (scaleKey === 'days') {
-		if (!(count % 2) || scaleKey < maxKeys[scaleKey]/2) {
+		if (!(count % 2) || scaleValue < maxKeys[scaleKey]/2) {
+			if (scaleKey === 'hours') {
+				console.log('hours');
+			}
 			if (scaleKey === 'days') {
 				context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
 			}
@@ -141,6 +146,7 @@ TimeAxis.prototype.addKey = function() {
 				currentMonth = currentDate.getMonth();
 				context.fillText(months[currentMonth], position, canvasHeight - fontHeight);
 			}
+			//console.log(currentDate.getFullYear());
 			if (currentYear !== currentDate.getFullYear()) {
 				currentYear = currentDate.getFullYear();
 				context.fillText(currentYear, position, canvasHeight - 2);
@@ -149,7 +155,11 @@ TimeAxis.prototype.addKey = function() {
 		//}
 		position += keyWidth;
 		count++;
-		currentDate.setDate(currentDate.getDate() + 1);
+		if (scaleKey === 'days') {
+			currentDate.setDate(currentDate.getDate() + 1);
+		} else if (scaleKey === 'years') {
+			currentDate.setFullYear(currentDate.getFullYear() + 1);
+		}
 	}
 	
 }
