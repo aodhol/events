@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>BBC News - Events</title>
+		<link rel="stylesheet" href="/css/style.css"> 
+		<meta content='width=device-width' name='viewport' />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>	
+		
+		<script type="text/javascript" src="/js/timeaxis.js"></script>	
+
+       
+
+    <!-- <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" /> -->
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <!-- <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="/css/jquery.mobile.pagination.css">
+    <script src="/js/jquery.mobile.pagination.js"></script> -->
+
+    <style type="text/css">
+    #timeaxis {
+    	/*width: 100%;*/
+    }
+    head, body {
+    	margin: 0;
+    	padding: 0;
+    }
+    </style>
+
+</head>
+<body>
+
+
+</body>
+
+		<script type="text/javascript" src="/javascripts/article.js"></script>
+
+		<script type="text/javascript">	
+
+			var articleIdx = 0;
+			var displayedIndex = 0;
+			var retrievedIndex = 0;         
+
+			//Does more than handle this, need to rename.
+    		function handleArticleIds(error,data){
+
+    			if(data != null){
+
+    				console.log(data);
+    				articleIds = data.article_ids;
+
+    				console.log("article ids:",articleIds)
+
+    				console.log("ARTICLE IDS:" + articleIdx);
+
+    				// getArticle(articleIdx,function(error,data){
+    				// 	console.log("Getting article for index:" + articleIdx + " article data:",data);
+    				// 	renderArticle(data.article);    					
+    				// });
+
+                    // getArticle(articleIdx,function(error,data){
+                    //     console.log("Getting article for index:" + articleIdx + " article data:",data);                        
+                    // });
+
+	                var storyInfo = $("#story-info");
+                    var storyNumber = $(".total-stories",storyInfo);
+                    storyNumber.text(articleIds.length);
+
+                    var agents = data.agents;
+
+                    var list = $("<ul>");
+
+                    for(var i = 0; i < agents.length; i++){
+                    	var item = $("<li>").text(agents[i].label);
+                    	list.append(item);
+                    }
+
+                    $("#agents").append(list);
+
+
+                    var agents = data.agents;
+
+                    var list = $("<ul>");
+
+                    for(var i = 0; i < agents.length; i++){
+                    	var item = $("<li>").text(agents[i].label);
+                    	list.append(item);
+                    }
+
+                    $("#agents").append(list);
+
+                    var places = data.places;
+
+                    var list = $("<ul>");
+
+                    for(var i = 0; i < places.length; i++){
+                    	var item = $("<li>").text(places[i].label);
+                    	list.append(item);
+                    }
+
+                    $("#places").append(list);
+
+                    var concepts = data.concepts;
+
+                    var list = $("<ul>");
+
+                    for(var i = 0; i < concepts.length; i++){
+                    	var item = $("<li>").text(concepts[i].label);
+                    	list.append(item);
+                    }
+
+                    $("#concepts").append(list);
+
+                    console.log("END AT:" + data.end_at + " start AT:" + data.start_at)
+
+	var timeAxis = new TimeAxis();
+				var event = {
+					"end_at":data.end_at,
+					"start_at":data.start_at,
+					"articles":articleIds
+				};
+				timeAxis.renderTimeline(event, '19446803');
+
+
+                    handleStoryClick();
+    			}
+    		}
+
+            function handleStoryClick(){
+
+                console.log("handling story click")
+
+                getArticle(articleIdx++,function(error,data){
+                	console.log("DATA__________________:",data);
+                    renderArticle(data.article);
+                    var storyInfo = $("#story-info");
+
+                    var storyNumber = $(".story-number",storyInfo);
+                    storyNumber.text(articleIdx);
+
+                });
+
+            }
+
+			function renderArticle(article){
+
+				var containerSection = $("#content");
+				var storyElement = $('#stories .story');
+
+				//storyElement.click(handleStoryClick);
+
+				var headlineElement = $('.headline',storyElement);
+				var imageElement = $('.img',storyElement);
+				var summaryElement = $('.summary',summaryElement);
+
+				//console.log("ARTICLE:",article)
+
+				headlineElement.text(article.title);
+				summaryElement.text(article.description);
+
+
+				var imageSrc = '';
+				if (article.full_data.image) {
+					imageSrc = article.full_data.image.origin;
+				}
+				console.log("ARTICLEEEEE:",article);
+				imageElement.attr("src",imageSrc);
+			}
+
+			$(document).ready(function(){
+
+				var displayedIndex = 0;
+				
+                var retrievedIndex = 0;
+
+				var articleCache = [];		
+
+                var containerSection = $("#content");
+                
+                containerSection.click(handleStoryClick);		
+
+				getArticleIds("<%=event_id%>",handleArticleIds);			
+
+			});
+		</script>
+	</head>
+
+	<body>
+	<header>
+	  	<div id="blq-mast-bar">
+	  		<div id="blq-blocks"><a href="/">BBC</a></div>
+	  	</div>   
+		
+		<div id="site-brand">
+	        <div class="site-brand-inner">
+	            <a id="brand" href="/">
+	                <img width="86" height="23" alt="BBC News" src="/img/news-brand-22.gif">
+	            </a>
+			</div>
+	    </div>
+		    
+		<% include nav %>
+
+	</header>
+
+	<canvas id="timeaxis" height="60"></canvas>
+
+
+	<section id="content">
+		<div id="stories">
+			<div class="story">
+				<h2 class="headline"></h2>
+				<img src="" class="img">
+				<div class="summary"></div>
+			</div>
+		</div>
+		<div id="story-info">
+			<span class="story-number">1</span> of <span class="total-stories"></span>
+		</div>
+	</section>
+
+	<section id="metadata">
+		<div id="agents">
+			<h2 class="headline">Agents</h2>
+		</div>
+		<div id="concepts">
+			<h2 class="headline">Concepts</h2>
+		</div>
+		<div id="places">
+			<h2 class="headline">Places</h2>
+		</div>
+	</section>
+
+
+
+
+
+
+
+
+
+
+	</body>
+
+</html>

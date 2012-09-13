@@ -8,14 +8,28 @@
 	}*/
 </style>
 
+<!--
+{"article_ids":ids,
+  "agents":result.agents,
+  "places":result.places,
+  "concepts":result.concepts,
+  "end_at":result.end_at,
+  "start_at":result.start_at,
+  "parent_title":data.parent_title,
+  "title":data.title,
+  "event_id":eventId
+-->
+
 <div id="blq-local-nav" class="blq-clearfix">
 
 	<ul id="nav">
 		<li class="mobile"><a href="/">Home</a></li>
-	    <li class="mobile section"><a href="/world">Events</a></li>
-		<li class="mobile section"><a href="/world">Arab Spring</a></li>	    	
-	    <li class="mobile selected subsection"><a href="/world/asia">Syria Crisis</a></li>
+	    <li class="mobile section"><a href="/events">Events</a></li>
+
+	    <% if(parent_title != null){ %>
+	    	<li class="mobile section <%= (parent_id != null) ? 'parent-event' :'' %>"><a href="/event/<%= parent_id %>/articles"><%= parent_title %></a></li>	
+	    <% } %>		
+	    <li class="mobile selected subsection"><a href="/event/<%= event_id %>/articles"><%= title %></a></li>
 	</ul> 
-    
-    <a data-event="top" href="#site-nav" id="nav-button">Sections</a>
+
 </div>

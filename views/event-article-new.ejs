@@ -1,0 +1,155 @@
+<!--
+{"article_ids":ids,
+  "agents":result.agents,
+  "places":result.places,
+  "concepts":result.concepts,
+  "end_at":result.end_at,
+  "start_at":result.start_at,
+  "parent_title":data.parent_title,
+  "title":data.title,
+  "event_id":eventId
+-->
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>BBC News - Events</title>
+        <link rel="stylesheet" href="/css/style.css"> 
+        <meta content='width=device-width' name='viewport' />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>  
+        <script type="text/javascript" src="/js/timeaxis.js"></script>  
+ 
+        <style type="text/css">
+            #timeaxis {
+                /*width: 100%;*/
+            }
+            head, body {
+                margin: 0;
+                padding: 0;
+            }
+
+            li.parent-event{
+                background:url(/img/sprite3.png) no-repeat -8px -205px
+            }
+
+        </style>
+
+        <script type="text/javascript">
+            $(document).ready(function(){
+
+                var articles = $(".event-articles");
+
+                var startDate = $("event-start-date").text();;
+                var endDate = $("event-end-date").text();
+
+                var timeAxisData = {
+                    "start_at":startDate,
+                    "end_at":endDate,
+                    "articles":[]
+                };
+
+                articles.each(function(){
+                    var article = $(this);
+                    var cpsId = article.attr("data-cps-id");
+                    var publishedDate = article.attr("data-published-date"); 
+                    timeAxisData.articles.push({"published":publishedDate,"cps_id":cpsId});
+
+                });
+                
+                var timeAxis = new TimeAxis();
+                timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[0].cps_id);
+
+            });
+        </script>
+
+    </head>
+<body>
+
+    <header>
+        <div id="blq-mast-bar">
+            <div id="blq-blocks"><a href="/">BBC</a></div>
+        </div>   
+        
+        <div id="site-brand">
+            <div class="site-brand-inner">
+                <a id="brand" href="/">
+                    <img width="86" height="23" alt="BBC News" src="/img/news-brand-22.gif">
+                </a>
+            </div>
+        </div>
+            
+        <% include nav %>
+
+    </header>
+
+    <canvas id="timeaxis" height="60"></canvas>
+
+
+<ul class="event-articles">
+<% for(var i = 0; i < article_ids.length; i++) {%>
+   <li><a href="/article/<%= article_ids[i].id %>" data-cps-id="<%= article_ids[i].id %>" data-published-date="<%= article_ids[i].published %>" data-prefetch><%= article_ids[i].title %></a></li>
+<% } %>
+</ul>
+
+
+<section id="content">
+    <div id="stories">
+        <div class="story">
+            <h2 class="headline"></h2>
+            <img src="" class="img">
+            <div class="summary"></div>
+        </div>
+    </div>
+    <div id="story-info">
+        <span class="story-number">1</span> of <span class="total-stories">1</span>
+    </div>
+</section>
+
+
+<section id="metadata">
+
+    <span class="event-start-date"><%= start_at %></span>
+    <span class="event-end-date"><%= end_at %></span>
+
+	<div id="concepts">
+        <h2 class="headline">Concepts</h2>
+        <ul class="event-concepts">
+        <% for(var i = 0; i < concepts.length; i++) {%>
+           <li><a href="/concept/<%= concepts[i].title %>" data-prefetch><%= concepts[i].label %></a></li>
+        <% } %>
+        </ul>
+    </div>
+    <div id="places">
+        <h2 class="headline">Places</h2>
+        <ul class="event-places">
+        <% for(var i = 0; i < places.length; i++) {%>
+           <li><a href="/concept/<%= places[i].title %>" data-prefetch><%= places[i].label %></a></li>
+        <% } %>
+        </ul>
+    </div>
+    <div id="agents">
+		<h2 class="headline">Agents</h2>
+        <ul class="event-agents">
+        <% for(var i = 0; i < agents.length; i++) {%>
+           <li><a href="/concept/<%= agents[i].title %>" data-prefetch><%= agents[i].label %></a></li>
+        <% } %>
+        </ul>        
+	</div>
+
+    <div id="concepts">
+        <h2 class="headline">Related events</h2>
+        <ul class="event-related">
+        <% for(var i = 0; i < relatedEvents.length; i++) {%>
+           <li><a href="/event/<%= relatedEvents[i].id %>/articles" data-prefetch><%= relatedEvents[i].title %></a></li>
+        <% } %>
+        </ul>
+    </div>
+
+</section>
+
+</body>
+
+</html>
+

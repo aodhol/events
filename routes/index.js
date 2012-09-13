@@ -241,8 +241,7 @@ function getArticle(articleId,callback){
 
 function getEventInfo(eventId,callback){
 
-  res.setHeader('Cache-Control', 'public, max-age=' + 3600);
-
+  
   var request = restler.get("http://juicer.responsivenews.co.uk/events/" + eventId + ".json");
 
   request.on('complete', function(result) {
@@ -250,19 +249,18 @@ function getEventInfo(eventId,callback){
       console.log('Error: ' + result.message);
     } else {
 
-      if(result.parent_id != null){
-        getEventInfo(result.parent_id, function(parentResult){
-          callback({"title":result.title,"parent_title":parentResult.title});
-        });
-      }else{
-         callback({"title":result.title,"parent_title":null});
+      if(result.end_at == null){
+        result.end_at = new Date().toISOString();
       }
 
-       
+      if(result.parent_id != null){
+        getEventInfo(result.parent_id, function(parentResult){
+          callback({"title":result.title,"parent_title":parentResult.title, "start_at":result.start_at, "end_at":result.end_at});
+        });
 
-      //console.log("listed event articles",result);
-
-      //
+      }else{
+         callback({"title":result.title,"parent_title":null, "start_at":result.start_at, "end_at":result.end_at});
+      }
     
     }
   });
@@ -274,8 +272,6 @@ exports.list_event_articles = function(req,res){
   console.log("listing event articles");
 
     var eventId = req.param('event_id');
-
-    res.setHeader('Cache-Control', 'public, max-age=' + 3600);
 
     var request = restler.get("http://juicer.responsivenews.co.uk/events/" + eventId + ".json");
 
@@ -289,27 +285,27 @@ exports.list_event_articles = function(req,res){
         //res.send instead of res.json as callback automatically added and causes problems
         //on front end..
         res.setHeader('Cache-Control', 'public, max-age=' + 3600);
-        res.setHeader('Expires','Mon, 12 Sept 2012 20:09:00 GMT');
         
         var ids = [];
 
         for(var i = 0; i < result.articles.length; i++){
-          ids.push({"id":result.articles[i].cps_id,"published":result.articles[i].published});
+          ids.push({"id":result.articles[i].cps_id,
+            "published":result.articles[i].published,
+            "title":result.articles[i].title,
+            "highlight":(i % Math.floor(Math.random() * result.articles.length) == 0)});
         }
 
-        console.log("listed event articles",result);
+        console.log("listed event articles");
 
-        getEventInfo(result,function(data){
-          
-          var parentTitle = null;
-
-          if(data != null){
-            parentTitle = data.parent_title;
-          }
-          
-          res.json({"article_ids":ids,"agents":result.agents,"places":result.places,"concepts":result.concepts,"end_at":result.end_at,"start_at":result.start_at,"parentTitle":parentTitle});  
+        getEventInfo(result.id,function(data){
+         res.json({"article_ids":ids,
+          "agents":result.agents,
+          "places":result.places,
+          "concepts":result.concepts,
+          "end_at":result.end_at,
+          "start_at":result.start_at,
+          "parent_title":data.parent_title});      
         });
-
       }
     });
 }
@@ -318,8 +314,58 @@ exports.event_article = function(req,res){
 
     var eventId = req.param('event_id');
 
-    res.render('event-article',{"event_id":eventId});
+  //  res.setHeader('Cache-Control', 'public, max-age=' + 3600);
 
+    var request = restler.get("http://juicer.responsivenews.co.uk/events/" + eventId + ".json");
+
+    console.log("http://juicer.responsivenews.co.uk/events/" + eventId);
+
+    request.on('complete', function(result) {
+      if (result instanceof Error) {
+        console.log('Error: ' + result.message);
+      } else {
+
+        //res.send instead of res.json as callback automatically added and causes problems
+        //on front end..
+        
+        var ids = [];
+
+        for(var i = 0; i < result.articles.length; i++){
+          ids.push({"id":result.articles[i].cps_id,"published":result.articles[i].published,"title":result.articles[i].title, "highlight":true});
+        }
+
+        console.log("listed event articles");
+
+        getEvents(function(error,data){
+          var relatedEvents = null;
+          if (error instanceof Error) {
+            console.log("Error:",data);
+          }else{
+            relatedEvents = getChildEvents(eventId,data);
+          }
+
+          getEventInfo(result.id,function(data){
+           res.render("event-article-new",{
+            "article_ids":ids,
+            "agents":result.agents,
+            "places":result.places,
+            "concepts":result.concepts,
+            "end_at":result.end_at,
+            "start_at":result.start_at,
+            "parent_id":result.parent_id,
+            "parent_title":data.parent_title,
+            "title":data.title,
+            "event_id":eventId,
+            "relatedEvents":relatedEvents,
+            "start_at":data.start_at,
+            "end_at":data.end_at
+            });      
+          });
+
+        });
+
+      }
+    });
 }
 
 exports.get_event = function(req, res){
@@ -345,6 +391,20 @@ exports.get_event = function(req, res){
 }
 
 
+function getChildEvents(parentId,events){
+  
+  var childEvents = [];
+
+  for(var i = 0; i < events.length; i++){
+    if(events[i].parent_id == parentId){      
+      childEvents.push(events[i]);
+    }
+  }
+
+  return childEvents;
+
+}
+
 function relate(events){
 
   var parentEvents = [];
@@ -361,7 +421,6 @@ function relate(events){
   }
 
   for(var i = 0; i < childEvents.length; i++){
-    console.log("looping")
     var childEvent = childEvents[i];
     var parentEventId = childEvent.parent_id;
     var parentEvent = parentEventsById[parentEventId];
@@ -375,20 +434,27 @@ function relate(events){
 
 }
 
-exports.get_events = function(req, res){
-     
-    var request = restler.get("http://juicer.responsivenews.co.uk/events.json");
+function getEvents(callback){
+  var request = restler.get("http://juicer.responsivenews.co.uk/events.json");
 
-    request.on('complete', function(result) {
-      if (result instanceof Error) {
-        console.log("Error:",result);
-      } else {//
+  request.on('complete', function(result) {
+    if (result instanceof Error) {
+      console.log("Error:",result);
+      callback(result,null);
+    } else {//
+      callback(null,result)
+    }
+  });
+}
 
-        var related = relate(result);
 
-        console.log("RELATED:",related)
-
-        res.render("events",{"events":result,"related":related});
+exports.get_events = function(req, res){   
+    getEvents(function(error,data){
+      if (error instanceof Error) {
+        console.log("Error:",data);
+      } else {
+        var related = relate(data);
+        res.render("events",{"events":data,"related":related});
       }
     });
 }
