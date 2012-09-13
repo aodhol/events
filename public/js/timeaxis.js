@@ -59,7 +59,7 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 		years = monthsTotal / 12;
 
 	if (hours < maxKeys['hours']) {
-		scaleKey = 'days';
+		scaleKey = 'hours';
 		scaleValue = hours;
 	} else if (days < maxKeys['days']) {
 		scaleKey = 'days';
@@ -100,8 +100,8 @@ TimeAxis.prototype.addArticles = function() {
 	for (article in ev.articles) {
 		var articleDate = new Date(ev.articles[article][articleTimelineKey]);
 
+		diff = this.getDateShort(articleDate).getTime() - this.getDateShort(start).getTime();
 		if (scaleKey !== 'hours') {
-			diff = this.getDateShort(articleDate).getTime() - this.getDateShort(start).getTime();
 			fullDiff = this.getDateShort(end).getTime() - this.getDateShort(start).getTime();
 			position = (canvasWidth / fullDiff) * diff;
 		} else {
@@ -136,6 +136,9 @@ TimeAxis.prototype.addKey = function() {
 	while (currentDate <= end) {
 		//if (scaleKey === 'days') {
 		if (!(count % 2) || scaleValue < maxKeys[scaleKey]/2) {
+			if (scaleKey === 'hours') {
+				console.log('hours');
+			}
 			if (scaleKey === 'days') {
 				context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
 			}
