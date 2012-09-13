@@ -55,7 +55,8 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 		minutes = seconds / 60,
 		hours = minutes / 60,
 		days = hours / 24,
-		monthsTotal = days / 30;
+		monthsTotal = days / 30,
+		years = monthsTotal / 12;
 
 		console.log(monthsTotal);
 		console.log(maxKeys['months']);
@@ -69,6 +70,9 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 	} else if (monthsTotal < maxKeys['months']) {
 		scaleKey = 'months';
 		scaleValue = months;
+	} else {
+		scaleKey = 'years';
+		scaleValue = years;
 	}
 
 	this.getSizes();
@@ -104,6 +108,8 @@ TimeAxis.prototype.addArticles = function() {
 			position = Math.floor(diff / (1000 * 60 * 60 * 24));
 		} else if (scaleKey === 'months') {
 			position = Math.floor(diff / (1000 * 60 * 60 * 24 * (new Date(articleDate.getFullYear(), articleDate.getMonth(), 0).getDate())));
+		} else {
+			position = Math.floor(diff / (1000 * 60 * 60 * 24 * 30 * 12));
 		}
 		this.addMarker(position, (ev.articles[article].id === articleId));
 	}
