@@ -45,7 +45,7 @@ function getArticle(index,callback){
 			console.log("cache miss");
 		}
 
-		var articleId = articleIds[index];//getArticleId(index);
+		var articleId = articleIds[index].id;//getArticleId(index);
 		
 		console.log("getting:" + "http://localhost:5000/article/" + articleId);
 		

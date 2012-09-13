@@ -102,7 +102,7 @@ TimeAxis.prototype.addArticles = function() {
 		} else if (scaleKey === 'months') {
 			position = Math.floor(diff / (1000 * 60 * 60 * 24 * (new Date(articleDate.getFullYear(), articleDate.getMonth(), 0).getDate())));
 		}
-		this.addMarker(position, (ev.articles[article].cps_id === articleId));
+		this.addMarker(position, (ev.articles[article].id === articleId));
 	}
 }
 
