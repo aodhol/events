@@ -23,7 +23,7 @@ var canvas = document.getElementById('timeaxis'),
 	start,
 	end,
 	articleId,
-	maxKeys = { 'days':40, 'hours':36 },
+	maxKeys = { 'months':12, 'days':40, 'hours':24 },
 	months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
 	colours = { 'background': '#fff', 'article':'#ccc', 'current':'#c11b17' };
 
@@ -31,7 +31,7 @@ var canvas = document.getElementById('timeaxis'),
 
 	window.addEventListener('resize', resizeCanvas, false);
 
-var event = {
+var daysEvent = {
 	"end_at":"2012-09-25T14:45:00Z",
 	"start_at":"2012-08-25T14:45:00Z",
 	"articles":[
@@ -41,7 +41,7 @@ var event = {
 		{ "published":"2012-09-12T22:29:46Z", "cps_id":"19446804" }
 	]
 };
-renderTimeline(event, '19446803');
+renderTimeline(daysEvent, '19446803');
 
 function renderTimeline(event, currentArticleId) {
 	ev = event;
@@ -52,13 +52,18 @@ function renderTimeline(event, currentArticleId) {
 		seconds = datediff / 1000,
 		minutes = seconds / 60,
 		hours = minutes / 60,
-		days = hours / 24;
+		days = hours / 24,
+		monthsTotal = days / 30;
 
 	if (hours < maxKeys['hours']) {
-		
+		scaleKey = 'hours';
+		scaleValue = 'hours';
 	} else if (days < maxKeys['days']) {
 		scaleKey = 'days';
 		scaleValue = days;
+	} else if (monthsTotal < maxKeys['months']) {
+		scaleKey = 'months';
+		scaleValue = months;
 	}
 
 	getSizes();
@@ -89,9 +94,11 @@ function addArticles() {
 	for (article in ev.articles) {
 		var articleDate = new Date(ev.articles[article][articleTimelineKey]);
 
+		diff = articleDate.getTime() - start.getTime();
 		if (scaleKey === 'days') {
-			diff = articleDate.getTime() - start.getTime();
 			position = Math.floor(diff / (1000 * 60 * 60 * 24));
+		} else if (scaleKey === 'months') {
+			position = Math.floor(diff / (1000 * 60 * 60 * 24 * (new Date(articleDate.getFullYear(), articleDate.getMonth(), 0).getDate())));
 		}
 		addMarker(position, (ev.articles[article].cps_id === articleId));
 	}
@@ -107,23 +114,28 @@ function addKey() {
 	context.font = 'bold 12px Arial';
 	var currentDate = new Date(start.getTime()),
 		position = 0,
+		count = 0,
 		currentDay,
 		currentMonth,
-		currentYear;
+		currentYear,
+		displaySwitch = (Math.floor(currentDate.getDate() % 2));
 
 	while (currentDate <= end) {
 		if (scaleKey === 'days') {
-			context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
-			if (currentMonth !== currentDate.getMonth()) {
-				currentMonth = currentDate.getMonth();
-				context.fillText(months[currentMonth], position, canvasHeight - fontHeight);
-			}
-			if (currentYear !== currentDate.getFullYear()) {
-				currentYear = currentDate.getFullYear();
-				context.fillText(currentYear, position, canvasHeight - 2);
+			if (!(count % 2) || scaleKey < maxKeys['days']/2) {
+				context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
+				if (currentMonth !== currentDate.getMonth()) {
+					currentMonth = currentDate.getMonth();
+					context.fillText(months[currentMonth], position, canvasHeight - fontHeight);
+				}
+				if (currentYear !== currentDate.getFullYear()) {
+					currentYear = currentDate.getFullYear();
+					context.fillText(currentYear, position, canvasHeight - 2);
+				}
 			}
 		}
 		position += keyWidth;
+		count++;
 		currentDate.setDate(currentDate.getDate() + 1);
 	}
 	
