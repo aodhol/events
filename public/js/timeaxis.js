@@ -67,6 +67,8 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 		scaleKey = 'months';
 		scaleValue = months;
 	}
+	console.log(scaleKey);
+	console.log(scaleValue);
 
 	this.getSizes();
 	this.background();
