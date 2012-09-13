@@ -8,6 +8,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>	
 		
+		<script type="text/javascript" src="/js/timeaxis.js"></script>	
 
        
 
@@ -16,6 +17,17 @@
     <!-- <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script> -->
     <!-- <link rel="stylesheet" href="/css/jquery.mobile.pagination.css">
     <script src="/js/jquery.mobile.pagination.js"></script> -->
+
+    <style type="text/css">
+    #timeaxis {
+    	/*width: 100%;*/
+    }
+    head, body {
+    	margin: 0;
+    	padding: 0;
+    }
+    </style>
+
 </head>
 <body>
 
@@ -30,12 +42,13 @@
 			var displayedIndex = 0;
 			var retrievedIndex = 0;         
 
+			//Does more than handle this, need to rename.
     		function handleArticleIds(error,data){
 
     			if(data != null){
 
     				console.log(data);
-    				articleIds = data.article_ids;
+    				articleIds = data.article_ids.ids;
 
     				console.log("ARTICLE IDS:" + articleIdx);
 
@@ -97,6 +110,18 @@
 
                     $("#concepts").append(list);
 
+	var timeAxis = new TimeAxis();
+				var event = {
+					"end_at":"2012-09-25T14:45:00Z",
+					"start_at":"2012-08-25T14:45:00Z",
+					"articles":[
+						{ "published":"2012-08-31T22:29:46Z", "cps_id":"19446801" },
+						{ "published":"2012-09-02T22:29:46Z", "cps_id":"19446802" },
+						{ "published":"2012-09-05T22:29:46Z", "cps_id":"19446803" },
+						{ "published":"2012-09-12T22:29:46Z", "cps_id":"19446804" }
+					]
+				};
+				timeAxis.renderTimeline(event, '19446803');
 
 
                     handleStoryClick();
@@ -150,6 +175,8 @@
 
 				getArticleIds("<%=event_id%>",handleArticleIds);
 
+			
+
 			});
 		</script>
 	</head>
@@ -172,6 +199,7 @@
 
 	</header>
 
+	<canvas id="timeaxis" height="80"></canvas>
 
 
 	<section id="content">

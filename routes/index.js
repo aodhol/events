@@ -265,7 +265,7 @@ exports.list_event_articles = function(req,res){
         var ids = [];
 
         for(var i = 0; i < result.articles.length; i++){
-          ids.push(result.articles[i].cps_id);
+          ids.push({"ids":result.articles[i].cps_id,"published_date":result.articles[i].published_date});
         }
 
         console.log("listed event articles");
