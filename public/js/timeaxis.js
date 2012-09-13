@@ -62,8 +62,8 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 		console.log(maxKeys['months']);
 
 	if (hours < maxKeys['hours']) {
-		scaleKey = 'hours';
-		scaleValue = 'hours';
+		scaleKey = 'days';
+		scaleValue = hours;
 	} else if (days < maxKeys['days']) {
 		scaleKey = 'days';
 		scaleValue = days;
@@ -117,7 +117,7 @@ TimeAxis.prototype.addArticles = function() {
 
 TimeAxis.prototype.addMarker = function(point, current) {
 	context.fillStyle = (current) ? colours.current : colours.article;
-	context.fillRect(point * keyWidth, 0, keyWidth, canvas.height);
+	context.fillRect(point * keyWidth, 0, keyWidth, canvas.height / 4);
 }
 
 TimeAxis.prototype.addKey = function() {
@@ -133,7 +133,7 @@ TimeAxis.prototype.addKey = function() {
 
 	while (currentDate <= end) {
 		//if (scaleKey === 'days') {
-		if (!(count % 2) || scaleKey < maxKeys[scaleKey]/2) {
+		if (!(count % 2) || scaleValue < maxKeys[scaleKey]/2) {
 			if (scaleKey === 'days') {
 				context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
 			}
