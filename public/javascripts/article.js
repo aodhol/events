@@ -4,7 +4,7 @@ var articleIds = [];
 
 function getArticleIds(eventId,callback){
 
-	var jqxhr = $.ajax( "http://localhost:5000/articles/list/" + eventId);
+	var jqxhr = $.ajax( "/articles/list/" + eventId);
 
 	console.log("getting articles:/articles/list/" + eventId)
 
@@ -47,9 +47,9 @@ function getArticle(index,callback){
 
 		var articleId = articleIds[index].id;//getArticleId(index);
 		
-		console.log("getting:" + "http://localhost:5000/article/" + articleId);
+		console.log("getting:" + "/article/" + articleId);
 		
-		var jqxhr = $.ajax( {"url":"http://localhost:5000/article/" + articleId,
+		var jqxhr = $.ajax( {"url":"/article/" + articleId,
 			"cache":true
 		});
 
