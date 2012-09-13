@@ -1,8 +1,5 @@
 <canvas id="timeaxis" height="80"></canvas>
 <style type="text/css">
-#timeaxis {
-	/*width: 100%;*/
-}
 head, body {
 	margin: 0;
 	padding: 0;
@@ -27,39 +24,6 @@ head, body {
 })();
 </script>
 <!-- <script type="text/javascript">
-var canvas = document.getElementById('timeaxis'),
-	context = canvas.getContext('2d'),
-	canvasHeight = canvas.height,
-	canvasWidth = window.innerWidth,
-	fontHeight = 16,
-	scaleKey,
-	scaleValue,
-	scaleIndex,
-	keyWidth,
-	articleTimelineKey = 'published',
-	ev,
-	start,
-	end,
-	articleId,
-	maxKeys = { 'months':12, 'days':40, 'hours':24 },
-	months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
-	colours = { 'background': '#fff', 'article':'#ccc', 'current':'#c11b17' };
-
-	canvas.width = canvasWidth;
-
-	window.addEventListener('resize', resizeCanvas, false);
-
-var daysEvent = {
-	"end_at":"2012-09-25T14:45:00Z",
-	"start_at":"2012-08-25T14:45:00Z",
-	"articles":[
-		{ "published":"2012-08-31T22:29:46Z", "cps_id":"19446801" },
-		{ "published":"2012-09-02T22:29:46Z", "cps_id":"19446802" },
-		{ "published":"2012-09-05T22:29:46Z", "cps_id":"19446803" },
-		{ "published":"2012-09-12T22:29:46Z", "cps_id":"19446804" }
-	]
-};
-renderTimeline(daysEvent, '19446803');
 
 function renderTimeline(event, currentArticleId) {
 	ev = event;

@@ -1,4 +1,29 @@
 var fontHeight = 16,
+	scaleKey,
+	scaleValue,
+	scaleIndex,
+	keyWidth,
+	articleTimelineKey = 'published',
+	ev,
+	start,
+	end,
+	articleId,
+	maxKeys = { 'days':40, 'hours':36 },
+	canvas = null,
+	months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
+	colours = { 'background': '#fff', 'article':'#ccc', 'current':'#c11b17' };
+
+var TimeAxis = function(){
+	this.init();
+};
+
+TimeAxis.prototype.init = function(){
+				
+	canvas = document.getElementById('timeaxis'),
+		context = canvas.getContext('2d'),
+		canvasHeight = canvas.height,
+		canvasWidth = window.innerWidth,
+		fontHeight = 16,
 		scaleKey,
 		scaleValue,
 		scaleIndex,
@@ -9,37 +34,13 @@ var fontHeight = 16,
 		end,
 		articleId,
 		maxKeys = { 'days':40, 'hours':36 },
-		canvas = null,
 		months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
-		colours = { 'background': '#fff', 'article':'#ccc', 'current':'#c11b17' };
+		colours = { 'background': '#fff', 'article':'#ccc', 'current':'#c11b17' },
+		self = this;
 
-var TimeAxis = function(){
-	this.init();
-};
+		canvas.width = canvasWidth;
 
-TimeAxis.prototype.init = function(){
-				
-	canvas = document.getElementById('timeaxis'),
-			context = canvas.getContext('2d'),
-			canvasHeight = canvas.height,
-			canvasWidth = window.innerWidth,
-			fontHeight = 16,
-			scaleKey,
-			scaleValue,
-			scaleIndex,
-			keyWidth,
-			articleTimelineKey = 'published',
-			ev,
-			start,
-			end,
-			articleId,
-			maxKeys = { 'days':40, 'hours':36 },
-			months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
-			colours = { 'background': '#fff', 'article':'#ccc', 'current':'#c11b17' };
-
-			canvas.width = canvasWidth;
-
-			window.addEventListener('resize', this.resizeCanvas, false);
+		window.addEventListener('resize', function () { self.resizeCanvas(self); }, false);
 }
 
 
@@ -53,13 +54,18 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 		seconds = datediff / 1000,
 		minutes = seconds / 60,
 		hours = minutes / 60,
-		days = hours / 24;
+		days = hours / 24,
+		monthsTotal = days / 30;
 
 	if (hours < maxKeys['hours']) {
-		
+		scaleKey = 'hours';
+		scaleValue = 'hours';
 	} else if (days < maxKeys['days']) {
 		scaleKey = 'days';
 		scaleValue = days;
+	} else if (monthsTotal < maxKeys['months']) {
+		scaleKey = 'months';
+		scaleValue = months;
 	}
 
 	this.getSizes();
@@ -68,11 +74,11 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 	this.addKey();
 }
 
-TimeAxis.prototype.resizeCanvas = function() {
-	getSizes();
-	background();
-	addArticles();
-	addKey();
+TimeAxis.prototype.resizeCanvas = function(self) {
+	self.getSizes();
+	self.background();
+	self.addArticles();
+	self.addKey();
 }
 
 TimeAxis.prototype.getSizes = function() {
@@ -90,9 +96,11 @@ TimeAxis.prototype.addArticles = function() {
 	for (article in ev.articles) {
 		var articleDate = new Date(ev.articles[article][articleTimelineKey]);
 
+		diff = articleDate.getTime() - start.getTime();
 		if (scaleKey === 'days') {
-			diff = articleDate.getTime() - start.getTime();
 			position = Math.floor(diff / (1000 * 60 * 60 * 24));
+		} else if (scaleKey === 'months') {
+			position = Math.floor(diff / (1000 * 60 * 60 * 24 * (new Date(articleDate.getFullYear(), articleDate.getMonth(), 0).getDate())));
 		}
 		this.addMarker(position, (ev.articles[article].cps_id === articleId));
 	}
@@ -108,23 +116,28 @@ TimeAxis.prototype.addKey = function() {
 	context.font = 'bold 12px Arial';
 	var currentDate = new Date(start.getTime()),
 		position = 0,
+		count = 0,
 		currentDay,
 		currentMonth,
-		currentYear;
+		currentYear,
+		displaySwitch = (Math.floor(currentDate.getDate() % 2));
 
 	while (currentDate <= end) {
 		if (scaleKey === 'days') {
-			context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
-			if (currentMonth !== currentDate.getMonth()) {
-				currentMonth = currentDate.getMonth();
-				context.fillText(months[currentMonth], position, canvasHeight - fontHeight);
-			}
-			if (currentYear !== currentDate.getFullYear()) {
-				currentYear = currentDate.getFullYear();
-				context.fillText(currentYear, position, canvasHeight - 2);
+			if (!(count % 2) || scaleKey < maxKeys['days']/2) {
+				context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
+				if (currentMonth !== currentDate.getMonth()) {
+					currentMonth = currentDate.getMonth();
+					context.fillText(months[currentMonth], position, canvasHeight - fontHeight);
+				}
+				if (currentYear !== currentDate.getFullYear()) {
+					currentYear = currentDate.getFullYear();
+					context.fillText(currentYear, position, canvasHeight - 2);
+				}
 			}
 		}
 		position += keyWidth;
+		count++;
 		currentDate.setDate(currentDate.getDate() + 1);
 	}
 	
