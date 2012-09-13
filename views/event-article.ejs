@@ -132,6 +132,7 @@
                 console.log("handling story click")
 
                 getArticle(articleIdx++,function(error,data){
+                	console.log("DATA__________________:",data);
                     renderArticle(data.article);
                     var storyInfo = $("#story-info");
 
@@ -153,11 +154,18 @@
 				var imageElement = $('.img',storyElement);
 				var summaryElement = $('.summary',summaryElement);
 
-				console.log("ARTICLE:",article)
+				//console.log("ARTICLE:",article)
 
 				headlineElement.text(article.title);
 				summaryElement.text(article.description);
-				imageElement.attr("src",article.full_data.image.origin);
+
+
+				var imageSrc = '';
+				if (article.full_data.image) {
+					imageSrc = article.full_data.image.origin;
+				}
+				console.log("ARTICLEEEEE:",article);
+				imageElement.attr("src",imageSrc);
 			}
 
 			$(document).ready(function(){
@@ -172,9 +180,7 @@
                 
                 containerSection.click(handleStoryClick);		
 
-				getArticleIds("<%=event_id%>",handleArticleIds);
-
-			
+				getArticleIds("<%=event_id%>",handleArticleIds);			
 
 			});
 		</script>

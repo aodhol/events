@@ -6,8 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
-  , expressLayouts = require('express-ejs-layouts')
-  , gzippo = require('gzippo');
+  , expressLayouts = require('express-ejs-layouts');
 
 var app = express();
 
@@ -30,9 +29,9 @@ app.configure('development', function(){
 
 //Replace the default connect or express static provider with gzippo's
 //app.use(express.static(__dirname + '/public'));
-app.use(gzippo.staticGzip(__dirname + '/public'));
-app.use(gzippo.staticGzip(__dirname + '/public'));
-app.use(gzippo.compress());
+// app.use(gzippo.staticGzip(__dirname + '/public'));
+// app.use(gzippo.staticGzip(__dirname + '/public'));
+// app.use(gzippo.compress());
 
 app.get('/', routes.index);
 //app.get('/events', routes.get_events);

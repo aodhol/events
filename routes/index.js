@@ -239,6 +239,35 @@ function getArticle(articleId,callback){
     });
 }
 
+function getEventInfo(eventId,callback){
+
+  res.setHeader('Cache-Control', 'public, max-age=' + 3600);
+
+  var request = restler.get("http://juicer.responsivenews.co.uk/events/" + eventId + ".json");
+
+  request.on('complete', function(result) {
+    if (result instanceof Error) {
+      console.log('Error: ' + result.message);
+    } else {
+
+      if(result.parent_id != null){
+        getEventInfo(result.parent_id, function(parentResult){
+          callback({"title":result.title,"parent_title":parentResult.title});
+        });
+      }else{
+         callback({"title":result.title,"parent_title":null});
+      }
+
+       
+
+      //console.log("listed event articles",result);
+
+      //
+    
+    }
+  });
+}
+
 
 exports.list_event_articles = function(req,res){
 
@@ -270,7 +299,16 @@ exports.list_event_articles = function(req,res){
 
         console.log("listed event articles",result);
 
-        res.json({"article_ids":ids,"agents":result.agents,"places":result.places,"concepts":result.concepts,"end_at":result.end_at,"start_at":result.start_at});
+        getEventInfo(result,function(data){
+          
+          var parentTitle = null;
+
+          if(data != null){
+            parentTitle = data.parent_title;
+          }
+          
+          res.json({"article_ids":ids,"agents":result.agents,"places":result.places,"concepts":result.concepts,"end_at":result.end_at,"start_at":result.start_at,"parentTitle":parentTitle});  
+        });
 
       }
     });
