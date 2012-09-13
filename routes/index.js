@@ -202,7 +202,7 @@ url: "http://www.bbc.co.uk/news/world-middle-east-19484240"
             "text":'',
             "asset":
             {
-                "media":"http://localhost:5000/image/" + article.cps_id + ".jpg",
+                "media":"/image/" + article.cps_id + ".jpg",
                 "credit":"",
                 "caption":""
             }
@@ -268,9 +268,9 @@ exports.list_event_articles = function(req,res){
           ids.push({"id":result.articles[i].cps_id,"published":result.articles[i].published});
         }
 
-        console.log("listed event articles");
+        console.log("listed event articles",result);
 
-        res.json({"article_ids":ids,"agents":result.agents,"places":result.places,"concepts":result.concepts});
+        res.json({"article_ids":ids,"agents":result.agents,"places":result.places,"concepts":result.concepts,"end_at":result.end_at,"start_at":result.start_at});
 
       }
     });
