@@ -77,29 +77,89 @@
 
             var articleIds = [];
 
-            function getArticle(id){
+            var cache = [];
 
-                var jqxhr = $.ajax( "/article/" + id);
-     
-                jqxhr.done(function(data) {
-                    $("#stories").html(data);
-                });
+            var requestsInProgress = [];
 
-                jqxhr.error(function(error){
-                   // callback(error,null);
-                });
+            function makeRequest(uri,callback){
 
-                jqxhr.fail(function(e) {
-                    //callback(e,null)
-                });
+                if(requestsInProgress[uri] == undefined){
+
+                  requestsInProgress[uri] = true;
+
+                  var jqxhr = $.ajax(uri);
+                  
+                  jqxhr.done(function(data){callback(null,data)});
+
+                  jqxhr.error(function(error){
+                      callback(error,null);
+                  });
+
+                  jqxhr.fail(function(e) {
+                      callback(e,null)
+                  });
+              }  
+            }
+
+            function getArticle(index){
+
+                var id = articleIds[index];
+
+                console.log("IDD:" + index)
+
+                if(cache[id] != undefined){
+                    $("#stories").html(cache[id]);
+                    console.log("hit1");
+                }else{
+
+                    makeRequest("/article/" + id,function(error,data){
+                        if(data != null){
+                            cache[id] = data;
+                            $("#stories").html(data);
+                        }
+                    });
+
+                    if(index < articleIds.length-1){
+                        var nextItemId = articleIds[index+1];
+                        if(cache[nextItemId] == undefined){
+                           makeRequest("/article/" + nextItemId,function(error,data){
+                               if(data != null){
+                                   cache[nextItemId] = data;                                   
+                               }
+                           }); 
+                        }else{
+                            console.log("hit2");
+                        }
+                    }
+
+                    // var jqxhr = $.ajax( "/article/" + id);
+         
+                    // jqxhr.done(function(data) {
+                    //     cache[id] = data;
+                    //     $("#stories").html(data);
+                    // });
+
+                    // jqxhr.error(function(error){
+                    //    // callback(error,null);
+                    // });
+
+                    // jqxhr.fail(function(e) {
+                    //     //callback(e,null)
+                    // });
+
+
+
+
+
+                }
             }
 
             $(document).ready(function(){
 
-
                 var articles = $("#event-articles li");
 
-                var startDate = $(".event-start-date").text();;
+                var startDate = $(".event-start-date").text();
+
                 var endDate = $(".event-end-date").text();
 
                 var timeAxisData = {
@@ -109,7 +169,7 @@
                 };
 
                 articles.each(function(){
-                    var article = $(this);
+                    var article = $("a", this);
                     var cpsId = article.attr("data-cps-id");
                     var publishedDate = article.attr("data-published-date"); 
                     timeAxisData.articles.push({"published":publishedDate,"cps_id":cpsId});
@@ -119,15 +179,16 @@
 
                 var firstArticleId = $("a",articles.first()).attr("data-cps-id");
 
-                getArticle(firstArticleId);
+                getArticle(articleIndex++);
                 
                 var timeAxis = new TimeAxis();
+
                 timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[0].id);
 
                  $("#stories").click(function(){
                     console.log("getting article:" + (articleIndex+1 % articleIds.length), articleIds);
                     console.log("art ids:" + articleIds[0])
-                    getArticle(articleIds[(articleIndex++ % articleIds.length)]);
+                    getArticle((articleIndex++ % articleIds.length));
                  });
 
                 // jQuery('#story-carousel').jcarousel({

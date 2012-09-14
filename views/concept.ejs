@@ -1,19 +1,64 @@
-<h3><%=concept.description%></h3>
-<h3>Articles about <%=concept.title%></h3>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>BBC News - Events</title>
+        <link rel="stylesheet" href="/css/style.css"> 
+        <meta content='width=device-width' name='viewport' />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>  
+        <script type="text/javascript" src="/js/timeaxis.js"></script>  
+
+        <script type="text/javascript" src="/js/jquery.jcarousel.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/skins/tango/skin.css" />
+ 
+      
+    </head>
+<body>
+
+    <header>
+        <div id="blq-mast-bar">
+            <div id="blq-blocks"><a href="/">BBC</a></div>
+        </div>   
+        
+        <div id="site-brand">
+            <div class="site-brand-inner">
+                <a id="brand" href="/">
+                    <img width="86" height="23" alt="BBC News" src="/img/news-brand-22.gif">
+                </a>
+            </div>
+        </div>
+            
+      
+
+    </header>
 
 
-<ol>
-<%
-	var articles = concept.articles;
 
-	for(var i = 0; i < articles.length; i++){
+<section id="content">
+    <div id="articles">
 
-		var article = articles[i];
-%>
-		<li><a href="<%=article.url%>"><%=article.title%></a></li>
+        <h2><%=concept.description%></h2>
 
-<%
-	}
-%>
+        <h3>Articles about <%=concept.title%></h3>
 
-</ol>
+        <ol>
+        <%
+            var articles = concept.articles;
+
+            for(var i = 0; i < articles.length; i++){
+
+                var article = articles[i];
+        %>
+                <li><a href="<%=article.url%>"><%=article.title%></a></li>
+
+        <%
+            }
+        %>
+
+        </ol>
+
+
+    </div>
+</section>
+

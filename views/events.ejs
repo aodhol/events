@@ -111,7 +111,7 @@ for(var i = 0; i < related.length; i++){
 	%>
 
 	<li>
-		<a href="/timeline/<%=event.id%>"><%=event.title%></a>
+		<a href="/event/<%=event.id%>/articles"><%=event.title%></a> - <a href="/timeline/<%=event.id%>">Timeline</a>
     		<div class="event-info">First published <span class="event-created-at"><%=event.created_at%></span> has <%=event.articles.length%> <%=(event.articles.length > 1 ? 'stories':'story')%> mainly about:
 
     			<ul class="event-concepts">
@@ -134,7 +134,7 @@ for(var i = 0; i < related.length; i++){
                 <%for(var k = 0; k < event.childEvents.length; k++){%>
                     <%var childEvent = event.childEvents[k];%>
                     <% if(childEvent.articles.length > 0){ %>
-                    <li><a href="/timeline/<%=childEvent.id%>"><%=childEvent.title%></a></li>
+                    <li><a href="/event/<%=childEvent.id%>/articles"><%=childEvent.title%></a></li>
                     <% } %>
                 <%}%>
                 </ul>

@@ -25,6 +25,8 @@ exports.timeaxis = function(req, res) {
 exports.articles = function(req, res){
   var request = restler.get("http://juicer.responsivenews.co.uk/events.json");
 
+  res.setHeader('Cache-Control', 'public, max-age=' + 3600);
+  
     request.on('complete', function(result) {
       if (result instanceof Error) {
         console.log('Error: ' + result.message);
@@ -42,6 +44,8 @@ exports.articles = function(req, res){
 exports.image = function(req,res){
 
     var id = parseInt(req.param('id'));
+
+    res.setHeader('Cache-Control', 'public, max-age=' + 3600);
 
     var request = restler.get("http://juicer.responsivenews.co.uk/articles/" + id + ".json");
 
@@ -320,6 +324,8 @@ exports.event_article = function(req,res){
 
     console.log("http://juicer.responsivenews.co.uk/events/" + eventId);
 
+    res.setHeader('Cache-Control', 'public, max-age=' + 3600);
+
     request.on('complete', function(result) {
       if (result instanceof Error) {
         console.log('Error: ' + result.message);
@@ -460,6 +466,7 @@ exports.get_events = function(req, res){
         console.log("Error:",data);
       } else {
         var related = relate(data);
+        res.setHeader('Cache-Control', 'public, max-age=' + 3600);
         res.render("events",{"events":data,"related":related});
       }
     });
@@ -487,6 +494,7 @@ exports.timeline = function(req,res){
 
     var id = req.param('event_id');
 
+    res.setHeader('Cache-Control', 'public, max-age=' + 3600);
     res.render("timeline",{"event_id":id});
 }   
 
@@ -500,6 +508,7 @@ exports.concept = function(req,res){
       if (result instanceof Error) {
         console.log("Error:",result);
       } else {
+        res.setHeader('Cache-Control', 'public, max-age=' + 3600);
         res.render("concept",{"concept":result});
       }
     });
