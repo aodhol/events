@@ -1,15 +1,3 @@
-<!--
-{"article_ids":ids,
-  "agents":result.agents,
-  "places":result.places,
-  "concepts":result.concepts,
-  "end_at":result.end_at,
-  "start_at":result.start_at,
-  "parent_title":data.parent_title,
-  "title":data.title,
-  "event_id":eventId
--->
-
 <!doctype html>
 <html lang="en">
     <head>
@@ -132,25 +120,6 @@
                         }
                     }
 
-                    // var jqxhr = $.ajax( "/article/" + id);
-         
-                    // jqxhr.done(function(data) {
-                    //     cache[id] = data;
-                    //     $("#stories").html(data);
-                    // });
-
-                    // jqxhr.error(function(error){
-                    //    // callback(error,null);
-                    // });
-
-                    // jqxhr.fail(function(e) {
-                    //     //callback(e,null)
-                    // });
-
-
-
-
-
                 }
             }
 
@@ -172,7 +141,7 @@
                     var article = $("a", this);
                     var cpsId = article.attr("data-cps-id");
                     var publishedDate = article.attr("data-published-date"); 
-                    timeAxisData.articles.push({"published":publishedDate,"cps_id":cpsId});
+                    timeAxisData.articles.push({"published":publishedDate,"id":cpsId});
                     console.log("pushing:" + cpsId)
                     articleIds.push(cpsId);
                 });
@@ -189,6 +158,7 @@
                     console.log("getting article:" + (articleIndex+1 % articleIds.length), articleIds);
                     console.log("art ids:" + articleIds[0])
                     getArticle((articleIndex++ % articleIds.length));
+                    timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[articleIndex].id);
                  });
 
                 // jQuery('#story-carousel').jcarousel({
@@ -236,7 +206,12 @@
 
 <ul id="event-articles">
 <% for(var i = 0; i < article_ids.length; i++) {%>
-   <li><a href="/article/<%= article_ids[i].id %>" data-cps-id="<%= article_ids[i].id %>" data-published-date="<%= article_ids[i].published %>" data-prefetch><%= article_ids[i].title %></a></li>
+    <% if(article_ids[i].highlight == true ){ %>
+    <li>
+        <a href="/article/<%= article_ids[i].id %>" data-cps-id="<%= article_ids[i].id %>" data-published-date="<%= article_ids[i].published %>" data-prefetch><%= article_ids[i].title %>
+        </a>
+    </li>
+    <% } %>
 <% } %>
 </ul>
 
