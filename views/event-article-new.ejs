@@ -164,7 +164,7 @@
                     console.log("getting article:" + (articleIndex+1 % articleIds.length), articleIds);
                     console.log("art ids:" + articleIds[0])
                     getArticle((articleIndex++ % articleIds.length));
-                    timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[articleIndex].id);
+                    timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[articleIndex].cps_id);
                  });
 
                 // jQuery('#story-carousel').jcarousel({

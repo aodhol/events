@@ -35,6 +35,8 @@ TimeAxis.prototype.init = function(){
 
 
 TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
+	highlight = '';
+	canvasWidth = window.innerWidth;
 	ev = event;
 	articleId = currentArticleId;
 	start = new Date(ev.start_at);
@@ -112,16 +114,13 @@ TimeAxis.prototype.getDateShortWithHours = function (date) {
 }
 
 TimeAxis.prototype.addMarker = function(point, current) {
-	width = (scaleKey !== 'days' && scaleKey !== 'hours') ? 10 : keyWidth;
-	if (current) {
-		console.log('width: ' + width);
-	}
+	width = (scaleKey !== 'days' && scaleKey !== 'hours') ? 4 : keyWidth;
 	context.fillStyle = (current) ? colours.current : colours.article;
 	context.fillRect(point, 0, width, canvas.height / 4);
 	if (current) {
 		highlight = point;
 	}
-	if (highlight) {
+	if (highlight && colours.current !== context.fillStyle) {
 		context.fillStyle = colours.current;
 		context.fillRect(highlight, 0, 4, canvas.height / 4);
 	}
