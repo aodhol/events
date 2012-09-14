@@ -112,14 +112,18 @@ TimeAxis.prototype.getDateShortWithHours = function (date) {
 }
 
 TimeAxis.prototype.addMarker = function(point, current) {
-	width = (scaleKey !== 'days' && scaleKey !== 'hours') ? 4 : keyWidth;
+	width = (scaleKey !== 'days' && scaleKey !== 'hours') ? 10 : keyWidth;
+	if (current) {
+		console.log('width: ' + width);
+	}
 	context.fillStyle = (current) ? colours.current : colours.article;
 	context.fillRect(point, 0, width, canvas.height / 4);
 	if (current) {
 		highlight = point;
 	}
 	if (highlight) {
-		context.fillRect(highlight, 0, width, canvas.height / 4);
+		context.fillStyle = colours.current;
+		context.fillRect(highlight, 0, 4, canvas.height / 4);
 	}
 }
 

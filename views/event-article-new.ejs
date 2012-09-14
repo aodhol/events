@@ -144,10 +144,12 @@
                 articles.each(function(){
                     var article = $("a", this);
                     var cpsId = article.attr("data-cps-id");
-                    var publishedDate = article.attr("data-published-date"); 
-                    timeAxisData.articles.push({"published":publishedDate,"id":cpsId});
-                    console.log("pushing:" + cpsId)
-                    articleIds.push(cpsId);
+                    var publishedDate = article.attr("data-published-date");
+                    if (new Date(publishedDate) >= new Date(startDate) && new Date(publishedDate) <= new Date(endDate)) {
+                        timeAxisData.articles.push({"published":publishedDate,"cps_id":cpsId});
+                        console.log("pushing:" + cpsId)
+                        articleIds.push(cpsId);
+                    }
                 });
 
                 var firstArticleId = $("a",articles.first()).attr("data-cps-id");
@@ -156,7 +158,7 @@
                 
                 var timeAxis = new TimeAxis();
 
-                timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[0].id);
+                timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[0].cps_id);
 
                  $("#stories").click(function(){
                     console.log("getting article:" + (articleIndex+1 % articleIds.length), articleIds);
