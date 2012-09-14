@@ -67,11 +67,13 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 		scaleValue = days;
 	} else if (monthsTotal < maxKeys['months']) {
 		scaleKey = 'months';
-		scaleValue = months;
+		scaleValue = monthsTotal;
 	} else {
 		scaleKey = 'years';
 		scaleValue = years;
 	}
+
+	console.log(scaleKey);
 
 	this.getSizes();
 	this.background();
@@ -133,33 +135,42 @@ TimeAxis.prototype.addKey = function() {
 		currentYear,
 		displaySwitch = (Math.floor(currentDate.getDate() % 2));
 
+console.log('currentDate: ' + currentDate);
+console.log('end: ' + end);
+
 	while (currentDate <= end) {
-		//if (scaleKey === 'days') {
+		
 		if (!(count % 2) || scaleValue < maxKeys[scaleKey]/2) {
 			if (scaleKey === 'hours') {
-				// console.log('hours');
-			}
-			if (scaleKey === 'days') {
-				context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
-			}
-			if (currentMonth !== currentDate.getMonth()) {
-				currentMonth = currentDate.getMonth();
-				context.fillText(months[currentMonth], position, canvasHeight - fontHeight);
-			}
-			//console.log(currentDate.getFullYear());
-			if (currentYear !== currentDate.getFullYear()) {
-				currentYear = currentDate.getFullYear();
-				context.fillText(currentYear, position, canvasHeight - 2);
+				context.fillText(currentDate.getHours(), position, canvasHeight - (fontHeight) * 2);
+			} else {
+				if (scaleKey === 'days') {
+					context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
+				}
+				if (currentMonth !== currentDate.getMonth()) {
+					currentMonth = currentDate.getMonth();
+					context.fillText(months[currentMonth], position, canvasHeight - fontHeight);
+				}
+				
+				if (currentYear !== currentDate.getFullYear()) {
+					currentYear = currentDate.getFullYear();
+					context.fillText(currentYear, position, canvasHeight - 2);
+				}
 			}
 		}
-		//}
-		position += keyWidth;
-		count++;
+		
 		if (scaleKey === 'days') {
 			currentDate.setDate(currentDate.getDate() + 1);
 		} else if (scaleKey === 'years') {
 			currentDate.setFullYear(currentDate.getFullYear() + 1);
+		} else if (scaleKey === 'hours') {
+			currentDate.setHours(currentDate.getHours() + 1);
+		} else if (scaleKey === 'months') {
+			currentDate.setMonth(currentDate.getMonth() + 1);
 		}
+
+		position += keyWidth;
+		count++;
 	}
 	
 }
