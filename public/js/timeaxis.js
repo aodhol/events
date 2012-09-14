@@ -47,10 +47,8 @@ TimeAxis.prototype.init = function(){
 
 TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 	ev = event;
-	console.log(ev);
 	articleId = currentArticleId;
 	start = new Date(ev.start_at);
-	console.log(ev.start_at);
 	end = (ev.end_at) ? new Date(ev.end_at) : new Date();
 
 	var datediff = end.getTime() - start.getTime(),
@@ -74,8 +72,6 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 		scaleKey = 'years';
 		scaleValue = years;
 	}
-
-	console.log(scaleKey);
 
 	this.getSizes();
 	this.background();
@@ -106,16 +102,12 @@ TimeAxis.prototype.addArticles = function() {
 		var articleDate = new Date(ev.articles[article][articleTimelineKey]);
 
 		diff = this.getDateShort(articleDate).getTime() - this.getDateShort(start).getTime();
-		console.log(start);
-		console.log('diff: ' + diff);
 		if (scaleKey !== 'hours') {
 			fullDiff = this.getDateShort(end).getTime() - this.getDateShort(start).getTime();
-			console.log('full: ' + fullDiff);
 			position = (canvasWidth / fullDiff) * diff;
 		} else {
 			position = Math.floor(diff / (1000 * 60 * 60));
 		}
-		console.log(position);
 		this.addMarker(position, (ev.articles[article].id === articleId));
 	}
 }
@@ -145,7 +137,7 @@ TimeAxis.prototype.addKey = function() {
 		//if (scaleKey === 'days') {
 		if (!(count % 2) || scaleValue < maxKeys[scaleKey]/2) {
 			if (scaleKey === 'hours') {
-				console.log('hours');
+				// console.log('hours');
 			}
 			if (scaleKey === 'days') {
 				context.fillText(currentDate.getDate(), position, canvasHeight - (fontHeight) * 2);
