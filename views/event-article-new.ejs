@@ -184,10 +184,10 @@
                     console.log("getting article:" + (articleIndex+1 % articleIds.length), articleIds);
                     console.log("art ids:" + articleIds[0])
                     $('story-number').text(articleIndex);
-                    getArticle((articleIndex++ % articleIds.length));
+                    
+                    timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[(articleIndex+1 % articleIds.length)].cps_id);
 
-                    console.log("ID:::::", timeAxisData.articles[articleIndex])
-                    timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[articleIndex].cps_id);
+                    getArticle((articleIndex++ % articleIds.length));                   
 
                  });
 

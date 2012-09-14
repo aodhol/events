@@ -1,6 +1,6 @@
 <div class="story">
     <h2 class="headline"><%= article.title%></h2>
-    <% var imgSrc = (article.full_data != null && article.full_data.image) ? article.full_data.image.origin : '';%>
+    <% var imgSrc = (article.full_data != null && article.full_data.image) ? article.full_data.image.origin : 'http://news.bbcimg.co.uk/media/images/48351000/gif/_48351578_640x360-world-news.gif';%>
     <img src="<%= imgSrc %>" class="img">
     <div class="summary"><%= article.description %></div>
 </div>
