@@ -24,18 +24,6 @@ TimeAxis.prototype.init = function(){
 		canvasHeight = canvas.height,
 		canvasWidth = window.innerWidth,
 		fontHeight = 16,
-		/**scaleKey,
-		scaleValue,
-		scaleIndex,
-		keyWidth,
-		articleTimelineKey = 'published',
-		ev,
-		start,
-		end,
-		articleId,
-		maxKeys = { 'days':40, 'hours':36, 'months':18 },
-		months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
-		colours = { 'background': '#fff', 'article':'#ccc', 'current':'#c11b17' },**/
 		self = this;
 
 		canvas.width = canvasWidth;
@@ -101,13 +89,15 @@ TimeAxis.prototype.addArticles = function() {
 	for (article in ev.articles) {
 		var articleDate = new Date(ev.articles[article][articleTimelineKey]);
 
-		diff = this.getDateShort(articleDate).getTime() - this.getDateShort(start).getTime();
 		if (scaleKey !== 'hours') {
+			diff = this.getDateShort(articleDate).getTime() - this.getDateShort(start).getTime();
 			fullDiff = this.getDateShort(end).getTime() - this.getDateShort(start).getTime();
-			position = (canvasWidth / fullDiff) * diff;
 		} else {
-			position = Math.floor(diff / (1000 * 60 * 60));
+			diff = this.getDateShortWithHours(articleDate).getTime() - this.getDateShortWithHours(start).getTime();
+			fullDiff = this.getDateShortWithHours(end).getTime() - this.getDateShortWithHours(start).getTime();
 		}
+
+		position = (canvasWidth / fullDiff) * diff;
 		this.addMarker(position, (ev.articles[article].id === articleId));
 	}
 }
@@ -116,8 +106,12 @@ TimeAxis.prototype.getDateShort = function (date) {
 	return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
+TimeAxis.prototype.getDateShortWithHours = function (date) {
+	return new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours());
+}
+
 TimeAxis.prototype.addMarker = function(point, current) {
-	width = (scaleKey !== 'days') ? 4 : keyWidth;
+	width = (scaleKey !== 'days' && scaleKey !== 'hours') ? 4 : keyWidth;
 	context.fillStyle = (current) ? colours.current : colours.article;
 	context.fillRect(point, 0, width, canvas.height / 4);
 }
