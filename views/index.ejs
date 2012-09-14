@@ -11,58 +11,7 @@
 
 		<script type="text/javascript">		
 
-			if (!window.bbc) {
-				window.bbc = {};
-			}
-
-			bbc.newsPrototype = {};
-				
-			$(function() {
-		        //sections toggle
-		        $('#nav-button').click(function(e) {
-		        	e.preventDefault();
-			        $('body').toggleClass('nav-top-open');
-			        
-	  			});
-	  			
-	  			//subsections toggle
-		        $('.expand').click(function(e) {
-		        	e.preventDefault();
-			        $(this).toggleClass('open');
-			        $(this).next().toggleClass('open');
-				});
-				
-				//customise button
-				$('#edit-button').click(function(e) {
-		        	e.preventDefault();
-		        	$(this).toggleClass('edit');
-		        	var sectionList = $(this).parent().next();
-		        	sectionList.sortable({items: "li:not('#section_1')"});
-
-		        	if(sectionList.hasClass('edit')){
-		        		$(this).text('CUSTOMISE');
-			        	sectionList.sortable("disable");
-			        	
-			        	var myArray = sectionList.sortable('toArray');			        	
-			        	var placeholder = $('<ul/>');
-			        	placeholder.append($('#nav #nav_1'));
-			        	
-						$.each(myArray,function(index,value){
-							if (value !== '') {
-								var navId = value.replace("section_","nav_");
-								placeholder.append($('#nav #'+navId));
-							}
-						});
-						
-						$('#nav').empty().append(placeholder.children());
-		        	} else {
-		        		$(this).text('SAVE');
-			        	sectionList.sortable("enable");
-		        	}
-			        sectionList.toggleClass('edit');
-				});
-
-			});
+			
 		</script>
 
 	</head>
@@ -80,17 +29,13 @@
 			</div>
 	    </div>
 		    
-		<% include nav %>
+
 
 	</header>
 
 	<section id="content">
-		<% include content %>
+
 	</section>
-    <script type="text/javascript" src="/js/jcookie.min.js"></script>
-	<script type="text/javascript" src="/js/change-locale.js"></script>
-	<script type="text/javascript">
-		bbc.newsPrototype.changeLocale.init();
-	</script>
+
 	</body>
 </html>

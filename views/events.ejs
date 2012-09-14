@@ -1,15 +1,13 @@
-<!doctype html> 
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>BBC News - Near Me</title>
 
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-	<link rel="stylesheet" type="text/css" href="/stylesheets/reset.css">
-	<link rel="stylesheet" type="text/css" href="/stylesheets/default.css">
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>BBC News - Events</title>
+        <link rel="stylesheet" href="/css/style.css"> 
+        <meta content='width=device-width' name='viewport' />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>
 <!--
     <link rel="stylesheet" href="/stylesheets/gantt.css" />
     <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" /> -->
@@ -64,22 +62,28 @@ ol.events-list li div{
 </head>
 
 	<body>
+            <header>
+                <div id="blq-mast-bar">
+                    <div id="blq-blocks"><a href="/">BBC</a></div>
+                </div>   
+                
+                <div id="site-brand">
+                    <div class="site-brand-inner">
+                        <a id="brand" href="/">
+                            <img width="86" height="23" alt="BBC News" src="/img/news-brand-22.gif">
+                        </a>
+                    </div>
+                </div>
+                        
+                <% parent_title = null %>
+                <% include nav %>
+
+            </header>
+
+
 
 			<div id='results'></div>
 
-		<header role="banner">
-			<div id="global-header">
-				<a href="http://www.bbc.co.uk">
-					<img src="/images/bbc_blocks.png" width="84" height="24" alt="British Broadcasting Corporation" />
-				</a>
-			</div>
-			<div id="local-header">
-				<h1>
-					<a href="http://www.bbc.co.uk/news">News</a>
-					<span class="location"></span>
-				</h1>
-			</div>
-		</header>
 
 		<div id="container">
 

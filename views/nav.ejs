@@ -26,10 +26,13 @@
 		<li class="mobile"><a href="/">Home</a></li>
 	    <li class="mobile section"><a href="/events">Events</a></li>
 
-	    <% if(parent_title != null){ %>
+
+	    <% if(parent_title){ %>
 	    	<li class="mobile section <%= (parent_id != null) ? 'parent-event' :'' %>"><a href="/event/<%= parent_id %>/articles"><%= parent_title %></a></li>	
-	    <% } %>		
-	    <li class="mobile selected subsection"><a href="/event/<%= event_id %>/articles"><%= title %></a></li>
+	    <% } %>	
+	    <% if(title){ %>	
+	    	<li class="mobile selected subsection"><a href="/event/<%= event_id %>/articles"><%= title %></a></li>
+		<% } %>
 	</ul> 
 
 </div>

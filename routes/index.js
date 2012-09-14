@@ -471,7 +471,8 @@ exports.article = function(req,res){
       } else {//
         console.log("setting cache header");
         res.setHeader('Cache-Control', 'public, max-age=' + 3600);
-        res.json(result);
+        //res.json(result);
+        res.render("story",result);
       }
     });
 }

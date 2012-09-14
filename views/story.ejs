@@ -1,0 +1,6 @@
+<div class="story">
+    <h2 class="headline"><%= article.title%></h2>
+    <% var imgSrc = (article.full_data != null && article.full_data.image) ? article.full_data.image.origin : '';%>
+    <img src="<%= imgSrc %>" class="img">
+    <div class="summary"><%= article.description %></div>
+</div>
