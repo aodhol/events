@@ -35,6 +35,8 @@ TimeAxis.prototype.init = function(){
 
 
 TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
+	highlight = '';
+	canvasWidth = window.innerWidth;
 	ev = event;
 	articleId = currentArticleId;
 	start = new Date(ev.start_at);
@@ -118,8 +120,9 @@ TimeAxis.prototype.addMarker = function(point, current) {
 	if (current) {
 		highlight = point;
 	}
-	if (highlight) {
-		context.fillRect(highlight, 0, width, canvas.height / 4);
+	if (highlight && colours.current !== context.fillStyle) {
+		context.fillStyle = colours.current;
+		context.fillRect(highlight, 0, 4, canvas.height / 4);
 	}
 }
 
