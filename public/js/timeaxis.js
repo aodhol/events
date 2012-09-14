@@ -73,8 +73,6 @@ TimeAxis.prototype.renderTimeline = function(event, currentArticleId) {
 		scaleValue = years;
 	}
 
-	console.log(scaleKey);
-
 	this.getSizes();
 	this.background();
 	this.addArticles();
@@ -134,9 +132,6 @@ TimeAxis.prototype.addKey = function() {
 		currentMonth,
 		currentYear,
 		displaySwitch = (Math.floor(currentDate.getDate() % 2));
-
-console.log('currentDate: ' + currentDate);
-console.log('end: ' + end);
 
 	while (currentDate <= end) {
 		
