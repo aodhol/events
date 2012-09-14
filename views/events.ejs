@@ -34,13 +34,12 @@
 	.event-concepts li{
 		display:inline;
 		border-radius: 5px;
-		background-color:#99F;
 		border:0px solid #fff;
 		color:#fff;
 	}
 
 	.event-concepts li a {
-		color:#fff;
+		color:#404040;
 	}
 
 ol.events-list{
@@ -67,6 +66,36 @@ ol.events-list li div{
 
 .events-concepts li a {
     color: #404040;
+}
+.event-title {
+    color: #404040;
+    font-size: 24px;
+    line-height: 32px;
+    padding: 4px 0;
+}
+
+.event-concept {
+    color: #404040;
+    font-size: 16px;
+    line-height: 20px;
+    margin-right: 8px;
+    padding: 4px 0;
+}
+
+.event-published-info {
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.sub-events li {
+    list-style-type: circle;
+}
+
+.sub-events li a {
+    color: #404040;
+    font-size: 18px;
+    line-height: 24px;
+    padding: 4px 0;
 }
 
 </style>
@@ -123,8 +152,8 @@ for(var i = 0; i < related.length; i++){
 	%>
 
 	<li>
-		<a href="/event/<%=event.id%>/articles"><%=event.title%></a> - <a href="/timeline/<%=event.id%>">Timeline</a>
-    		<div class="event-info">First published <span class="event-created-at"><%=event.created_at%></span> has <%=event.articles.length%> <%=(event.articles.length > 1 ? 'stories':'story')%> mainly about:
+		<a class="event-title" href="/event/<%=event.id%>/articles"><%=event.title%></a> - <a class="event-title" href="/timeline/<%=event.id%>">Timeline</a>
+    		<div class="event-info"><span class="event-published-info">First published <span class="event-created-at"><%=event.created_at%></span> has <%=event.articles.length%> <%=(event.articles.length > 1 ? 'stories':'story')%> mainly about:</span>
 
     			<ul class="event-concepts">
     				<%
@@ -132,7 +161,7 @@ for(var i = 0; i < related.length; i++){
     					var label = concepts[j].label;
     					var title = concepts[j].title;
     				%>
-    					<li><a href="/concept/<%=title%>"><%=label%></a></li>
+    					<li><a class="event-concept" href="/concept/<%=title%>"><%=label%></a></li>
     				<%
     				}
     				%>
