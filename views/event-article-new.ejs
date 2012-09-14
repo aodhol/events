@@ -98,8 +98,8 @@
                   
                   jqxhr.done(function(data){
                     callback(null,data)
-                    console.log("data:", data)
-                    });
+
+                   });
 
                   jqxhr.error(function(error){
                       callback(error,null);
@@ -112,10 +112,8 @@
             }
 
             function getArticle(index){
-                console.log(articleIds);
+                
                 var id = articleIds[index];
-
-                console.log("IDD:" + index)
 
                 if(cache[id] != undefined){
                     $("#stories").html(cache[id]);
@@ -172,20 +170,20 @@
 
                 var firstArticleId = $("a",articles.first()).attr("data-cps-id");
 
-                getArticle(articleIndex++);
+                getArticle((articleIndex++ % articleIds.length));
 
-                $('total-stories').text(articles.length);
+                $('.total-stories').text(articles.length);
                 
                 var timeAxis = new TimeAxis();
 
                 timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[0].cps_id);
 
                  $("#stories").click(function(){
-                    console.log("getting article:" + (articleIndex+1 % articleIds.length), articleIds);
+                    console.log("getting article:" + articleIds[(articleIndex % articleIds.length-1)], articleIds);
                     console.log("art ids:" + articleIds[0])
-                    $('story-number').text(articleIndex);
+                    $('.story-number').text(articleIndex);
                     
-                    timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[(articleIndex+1 % articleIds.length)].cps_id);
+                    timeAxis.renderTimeline(timeAxisData,timeAxisData.articles[(articleIndex % articleIds.length-1)].cps_id);
 
                     getArticle((articleIndex++ % articleIds.length));                   
 
@@ -236,12 +234,12 @@
 
 <ul id="event-articles">
 <% for(var i = 0; i < article_ids.length; i++) {%>
-    <% if(article_ids[i].highlight == true ){ %>
+    <% /*if(article_ids[i].highlight == true ){*/ %>
     <li>
         <a href="/article/<%= article_ids[i].id %>" data-cps-id="<%= article_ids[i].id %>" data-published-date="<%= article_ids[i].published %>" data-prefetch><%= article_ids[i].title %>
         </a>
     </li>
-    <% } %>
+    <% /*} */%>
 <% } %>
 </ul>
 
