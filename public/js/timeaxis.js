@@ -11,7 +11,8 @@ var fontHeight = 16,
 	maxKeys = { 'days':40, 'hours':36, 'months':18, 'years':100 },
 	canvas = null,
 	months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
-	colours = { 'background': '#fff', 'article':'#ccc', 'current':'#f87217' };
+	colours = { 'background': '#fff', 'article':'#ccc', 'current':'#f87217' },
+	highlight;
 
 var TimeAxis = function(){
 	this.init();
@@ -98,7 +99,7 @@ TimeAxis.prototype.addArticles = function() {
 		}
 
 		position = (canvasWidth / fullDiff) * diff;
-		this.addMarker(position, (ev.articles[article].id === articleId));
+		this.addMarker(position, (ev.articles[article].cps_id === articleId));
 	}
 }
 
@@ -114,6 +115,12 @@ TimeAxis.prototype.addMarker = function(point, current) {
 	width = (scaleKey !== 'days' && scaleKey !== 'hours') ? 4 : keyWidth;
 	context.fillStyle = (current) ? colours.current : colours.article;
 	context.fillRect(point, 0, width, canvas.height / 4);
+	if (current) {
+		highlight = point;
+	}
+	if (highlight) {
+		context.fillRect(highlight, 0, width, canvas.height / 4);
+	}
 }
 
 TimeAxis.prototype.addKey = function() {
