@@ -52,6 +52,23 @@
                 display:none;
             }
 
+            .headline {
+                border-bottom: 1px solid #eee;
+                border-top: 4px solid #eee;
+                font-size: 24px;
+                line-height: 32px;
+                padding: 8px 0;
+            }
+
+            .list li, .list li a {
+                border-bottom: 1px solid #eee;
+                color: #404040;
+                font-size: 16px;
+                line-height: 20px;
+                padding: 8px 0;
+
+            }
+
         </style>
 
         <script type="text/javascript">
@@ -79,10 +96,11 @@
 
             $(document).ready(function(){
 
+
                 var articles = $("#event-articles li");
 
-                var startDate = $("event-start-date").text();;
-                var endDate = $("event-end-date").text();
+                var startDate = $(".event-start-date").text();;
+                var endDate = $(".event-end-date").text();
 
                 var timeAxisData = {
                     "start_at":startDate,
@@ -176,7 +194,7 @@
 
 	<div id="concepts">
         <h2 class="headline">Concepts</h2>
-        <ul class="event-concepts">
+        <ul class="event-concepts list">
         <% for(var i = 0; i < concepts.length; i++) {%>
            <li><a href="/concept/<%= concepts[i].title %>" data-prefetch><%= concepts[i].label %></a></li>
         <% } %>
@@ -184,7 +202,7 @@
     </div>
     <div id="places">
         <h2 class="headline">Places</h2>
-        <ul class="event-places">
+        <ul class="event-places list">
         <% for(var i = 0; i < places.length; i++) {%>
            <li><a href="/concept/<%= places[i].title %>" data-prefetch><%= places[i].label %></a></li>
         <% } %>
@@ -192,7 +210,7 @@
     </div>
     <div id="agents">
 		<h2 class="headline">Agents</h2>
-        <ul class="event-agents">
+        <ul class="event-agents list">
         <% for(var i = 0; i < agents.length; i++) {%>
            <li><a href="/concept/<%= agents[i].title %>" data-prefetch><%= agents[i].label %></a></li>
         <% } %>
@@ -201,7 +219,7 @@
 
     <div id="concepts">
         <h2 class="headline">Related events</h2>
-        <ul class="event-related">
+        <ul class="event-related list">
         <% for(var i = 0; i < relatedEvents.length; i++) {%>
            <li><a href="/event/<%= relatedEvents[i].id %>/articles" data-prefetch><%= relatedEvents[i].title %></a></li>
         <% } %>

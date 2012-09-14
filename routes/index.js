@@ -330,8 +330,14 @@ exports.event_article = function(req,res){
         
         var ids = [];
 
+        var start = (result.start_at) ? new Date(result.start_at) : new Date(),
+          end = (result.end_at) ? new Date(result.end_at) : new Date();
+
         for(var i = 0; i < result.articles.length; i++){
-          ids.push({"id":result.articles[i].cps_id,"published":result.articles[i].published,"title":result.articles[i].title, "highlight":true});
+          var published = new Date(result.articles[i].published);
+          if (published >= start && published <= end) {
+            ids.push({"id":result.articles[i].cps_id,"published":result.articles[i].published,"title":result.articles[i].title, "highlight":true});
+          }
         }
 
         console.log("listed event articles");
